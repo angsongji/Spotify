@@ -59,6 +59,20 @@ const albums = [
   { name: "Từng Ngày Như Mãi Mãi", artist: "buitruonglinh", image: "/BuiTruongLinhSpotify.jpg" },
 ];
 
+const artists = [
+  { name: "Noo Phước Thịnh", image: "/NooPhuocThinh.jpg" },
+  { name: "HIEUTHUHAI", image: "/HTH.jpg" },
+  { name: "Sơn Tùng M-TP", image: "/SonTung.jpg" },
+  { name: "Dương Domic", image: "/DuongDomic.jpg" },
+  { name: "ChiPu", image: "/ChiPu.jpg" },
+  { name: "Bích Phương", image: "/BichPhuong.jpg" },
+];
+const podcasts = [
+  { name: "Không thể say", description: " Không Thể Say là bài hát mới được HIEUTHUHAI chính thức ra mắt các fan hâm mộ vào tối 19/4/2023", image: "/HTH.jpg" },
+  { name: "Thương em là điều anh không thể ngờ", description: "Ngày ra mắt: 18/12/2018", image: "/NooPhuocThinh.jpg" },
+  { name: "Bùa Yêu", description: "Bùa yêu là tên đĩa đơn của nữ ca sĩ Bích Phương, được phát hành vào ngày 12 tháng 5 năm 2018", image: "/BichPhuong.jpg" },
+];
+
 const FilterButtons = ({ activeFilter, onFilterChange }) => {
   const filters = ['All', 'Music', 'Podcasts'];
 
@@ -88,28 +102,43 @@ const Home = () => {
     setActiveFilter(filter);
   };
 
-  const filteredRadios = activeFilter === 'All' ? radios : radios.filter((radio) => radio.type === activeFilter.toLowerCase());
-  const filteredAlbums = activeFilter === 'All' ? albums : albums.filter((album) => album.type === activeFilter.toLowerCase());
+  const filteredRadios = activeFilter === 'All' || activeFilter === 'Music' ? radios : [];
+  const filteredAlbums = activeFilter === 'All' || activeFilter === 'Music' ? albums : [];
+  const filteredPodcasts = activeFilter === 'Podcasts' ? podcasts : [];
 
   return (
     <div className="p-6 bg-black min-h-screen">
       <FilterButtons activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+      
+      {(activeFilter === 'All' || activeFilter === 'Music') && (
+        <>
+          <SectionTitle title="Popular Radio" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+            {filteredRadios.map((radio, index) => (
+              <RadioCard key={index} radio={radio} />
+            ))}
+          </div>
+        </>
+      )}
 
-      {/* Popular Radio Section */}
-      <SectionTitle title="Popular Radio" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-        {filteredRadios.map((radio, index) => (
-          <RadioCard key={index} radio={radio} />
-        ))}
-      </div>
-
-      {/* Popular Albums Section */}
-      <SectionTitle title="Popular Albums" />
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
-        {filteredAlbums.map((album, index) => (
-          <AlbumCard key={index} album={album} />
-        ))}
-      </div>
+      {filteredAlbums.length > 0 && (
+        <>
+          <SectionTitle title="Popular Albums" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+            {filteredAlbums.map((album, index) => (
+              <AlbumCard key={index} album={album} />
+            ))}
+          </div>
+        </>
+      )}
+       {filteredPodcasts.length > 0 && (
+        <div className="grid grid-cols-1 sm-grid-cols-2 md-grid-cols-3 lg-grid-cols-4 gap-5">
+          {filteredPodcasts.map((podcast, index) => (
+            <PodcastCard key={index} podcast={podcast} />
+          ))}
+        </div>
+      )}
+      {activeFilter === 'All' && <PopularArtists />} 
     </div>
   );
 };
@@ -143,6 +172,31 @@ const AlbumCard = ({ album }) => {
     </div>
   );
 };
+
+const PopularArtists = () => {
+  return (
+    <div className="my-8">
+      <SectionTitle title="Popular Artists" />
+      <div className="flex overflow-x-auto space-x-10 scrollbar-hide">
+        {artists.map((artist, index) => (
+          <div key={index} className="flex flex-col items-center w-40">
+            <img src={artist.image} alt={artist.name} className="w-40 h-40 rounded-full object-cover border-4 border-gray-700 hover:border-green-500 transition" />
+            <h3 className="text-white mt-2 font-medium text-center text-lg">{artist.name}</h3>
+            <p className="text-gray-400 text-sm">Artist</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const PodcastCard = ({ podcast }) => (
+  <div className="w-100 h-110 mb-20 object-cover rounded-lg transition-transform transform hover:scale-105 duration-300">
+    <img src={podcast.image} alt={podcast.name} className="w-100 h-100 object-cover rounded-lg mb-3" />
+    <h3 className="text-white font-semibold mt-3">{podcast.name}</h3>
+    <p className="text-gray-400 text-sm">{podcast.description}</p>
+  </div>
+);
 
 
 export default Home;
