@@ -14,13 +14,13 @@ const AppBar = () => {
           <FaLock className="absolute left-3 top-3 text-gray-400" />
         </div>
       </div>
-      <div className="flex items-center">
-        <button className="border-white text-black px-5 py-2 rounded-full mr-4 text-sm flex items-center">
+      <div className="flex items-center gap-4"> {/* Sử dụng gap-4 để tạo khoảng cách */}
+        <button className="border-white text-black px-5 py-2 rounded-full text-sm flex items-center">
           Explore Premium
         </button>
-        <button className="border border-white text-white px-4 py-2 rounded-full mr-4 text-sm">Install App</button>
-        <FaBell className="text-white mr-4" />
-        <FaGlobe className="mr-2" />
+        <button className="border border-white text-white px-4 py-2 rounded-full text-sm">Install App</button>
+        <FaBell className="text-white" />
+        <FaGlobe />
         <img src="/avatar.jpg" alt="Avatar" className="w-8 h-8 rounded-full" />
       </div>
     </div>
