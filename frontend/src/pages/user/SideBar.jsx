@@ -5,11 +5,11 @@ import { HiLibrary } from "react-icons/hi";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 
 const artists = [
-  { name: "Sơn Tùng", img: "/artists/sontung.jpg" },
-  { name: "Bích Phương", img: "/artists/bichphuong.jpg" },
-  { name: "Hiếu Thứ Hai", img: "/artists/hth.jpg" },
-  { name: "Dương Domic", img: "/artists/duongdomic.jpg" },
-  { name: "Chi Pu", img: "/artists/chipu.jpg" },
+  { name: "Sơn Tùng", img: "/SonTung.jpg" },
+  { name: "Noo Phước Thịnh", img: "/NooPhuocThinh.jpg" },
+  { name: "Hiếu Thứ Hai", img: "/HTH.jpg" },
+  { name: "Dương Domic", img: "/DuongDomic.jpg" },
+  { name: "Chi Pu", img: "/ChiPu.jpg" },
 ];
 
 const SideBar = () => {
@@ -17,7 +17,7 @@ const SideBar = () => {
     <div className="w-72 bg-black h-screen p-4 flex flex-col text-white">
       {/* Logo + Home */}
       <div className="flex items-center gap-3 mb-5">
-        <img src="https://static.vecteezy.com/system/resources/previews/023/986/728/non_2x/spotify-logo-spotify-logo-transparent-spotify-icon-transparent-free-free-png.png" alt="Spotify" className="w-8 h-8" />
+        <img src="/spotify_logo.jpg" alt="Spotify" className="w-8 h-8" />
         <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
           <FaHome className="text-white w-6 h-6" />
         </button>
@@ -49,7 +49,7 @@ const SideBar = () => {
       <div className="flex flex-col gap-3">
         {/* Liked Songs */}
         <div className="flex items-center gap-3">
-          <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8470d229cb865e8d81cdce0889" className="w-12 h-12 rounded-md" />
+          <img src="/likedSongs_logo.jpg" className="w-12 h-12 rounded-md" />
           <div>
             <p className="text-white font-bold">Liked Songs</p>
             <p className="text-gray-400 text-sm">Playlist • 2 songs</p>

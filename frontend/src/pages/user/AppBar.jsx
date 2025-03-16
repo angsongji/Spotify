@@ -21,7 +21,7 @@ const AppBar = () => {
         <button className="border border-white text-white px-4 py-2 rounded-full text-sm">Install App</button>
         <FaBell className="text-white" />
         <FaGlobe />
-        <img src="/avatar.jpg" alt="Avatar" className="w-8 h-8 rounded-full" />
+        <img src="/Avatar.jpg" alt="Avatar" className="w-8 h-8 rounded-full" />
       </div>
     </div>
   );
