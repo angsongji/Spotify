@@ -1,7 +1,44 @@
 import React from 'react';
 import { FaUserPlus } from 'react-icons/fa'; // Import icon
+const artist = {
+  id: "1",
+  name: "Sơn Tùng M-TP",
+  avatar: "https://i.scdn.co/image/ab67616100005174449c7d96a5a5c5db5d5c5d5c",
+  image: "https://i.scdn.co/image/ab67618600001016789a7d9a6a6c7d7b7b7b7b7b",
+  genre: ["Pop", "R&B"],
+  followers: 5000000,
+  albums: [
+    {
+      id: "album1",
+      name: "Sky Tour",
+      releaseDate: "2020-06-07",
+      image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6",
+    },
+    {
+      id: "album2",
+      name: "M-TP M-TP",
+      releaseDate: "2017-12-12",
+      image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6",
+    },
+  ],
+  songs: [
+    {
+      id: "track1",
+      name: "Chạy Ngay Đi",
+      duration: "3:50",
+      playCount: 12000000,
+    },
+    {
+      id: "track2",
+      name: "Hãy Trao Cho Anh",
+      duration: "4:10",
+      playCount: 15000000,
+    },
+  ],
+  bio: "Sơn Tùng M-TP là một ca sĩ, nhạc sĩ và nhà sản xuất âm nhạc người Việt Nam. Anh là một trong những nghệ sĩ thành công nhất của Vpop với nhiều bản hit đình đám.",
+};
 
-const Artist = ({ artist }) => {
+const Artist = () => {
   return (
     <div className="p-6">
       <img src={artist.image} alt={artist.name} className="w-64 h-64 rounded-full mb-4" />
