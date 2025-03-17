@@ -8,30 +8,29 @@ import '../index.css';
 const UserLayout = () => {
     return (
         <div className="bg-black flex flex-col h-screen">
-            <div className="min-h-[10vh]">
-                <AppBar />
-            </div>
+            <AppBar />
 
             <div className="flex-1 flex  px-2 gap-2">
                 {/* Sidebar - Menu trái */}
-                <div className="w-[22.22%] bg-[var(--dark-gray)]">
+                <div className="w-[22.22%] bg-[var(--dark-gray)] rounded-lg">
                     <SideBar />
                 </div>
 
                 {/* Main Content - Nội dung chính */}
-                <div className="flex-1 overflow-y-auto h-[80vh]">
-                    <Outlet /> {/* Nơi hiển thị các trang con theo đường dẫn cấu hình ở routes/index.jsx */}
-                    <Footer />
+                <div className="relative flex-1 overflow-y-auto h-[80vh] rounded-lg custom-scroll">
+                    <div className="">
+                        <Outlet /> {/* Nơi hiển thị các trang con theo đường dẫn cấu hình ở routes/index.jsx */}
+                        <Footer />
+                    </div>
                 </div>
 
+
                 {/* Right Panel - Panel phải */}
-                <div className="w-1/5 bg-[var(--dark-gray)] ">
+                <div className="w-1/5 bg-[var(--dark-gray)] rounded-lg">
                     <MusicQueue />
                 </div>
             </div>
-            <div className="min-h-[10vh]">
-                <AudioBar />
-            </div>
+            <AudioBar />
         </div>
     );
 };
