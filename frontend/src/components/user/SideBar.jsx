@@ -31,15 +31,15 @@ const SideBar = () => {
 
             <div className="flex flex-col gap-3">
                 {/* Liked Songs */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 cursor-pointer hover:border-r hover:border-r-white ">
                     <img src="/likedSongs_logo.jpg" className="w-12 h-12 rounded-md" />
                     <div className="flex flex-col justify-center h-full gap-1">
                         <div className="text-white font-bold ">Liked Songs</div>
                         <div className="text-gray-400 text-sm ">Playlist • 2 songs</div>
                     </div>
                 </div>
-                <div className="flex items-center gap-3">
-                    <img src="/JennieSpotify.jpg" className="w-12 h-12 rounded-md" />
+                <div className="flex items-center gap-3 cursor-pointer hover:border-r hover:border-r-white ">
+                    <img src="/JennieSpotify.jpg" className="w-12 h-12 rounded-md " />
                     <div className="flex flex-col justify-center h-full gap-1">
                         <div className="text-white font-bold ">Ruby</div>
                         <div className="text-gray-400 text-sm ">Album • JENNIE • 2 songs</div>

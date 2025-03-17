@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaHome, FaSearch, FaBell, FaGlobe } from 'react-icons/fa';
-
+import { useNavigate } from "react-router-dom";
 const AppBar = ({ radios, albums, artists, podcasts }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const avatarRef = useRef(null);
-
+    const navigate = useNavigate();
     const handleSearch = () => {
+
         const results = [];
 
         // Tìm kiếm trong radios
@@ -82,7 +83,7 @@ const AppBar = ({ radios, albums, artists, podcasts }) => {
                 {/* Logo + Home */}
                 <div className="flex items-center gap-3 ">
                     <img src="/spotify_logo.jpg" alt="Spotify" className="w-8 h-8" />
-                    <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
+                    <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700" onClick={() => navigate("/")}>
                         <FaHome className="text-white w-6 h-6 cursor-pointer" />
                     </button>
                 </div>
