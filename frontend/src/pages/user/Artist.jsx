@@ -4,7 +4,7 @@ const artist = {
   id: "1",
   name: "Sơn Tùng M-TP",
   avatar: "https://i.scdn.co/image/ab67616100005174449c7d96a5a5c5db5d5c5d5c",
-  image: "https://i.scdn.co/image/ab67618600001016789a7d9a6a6c7d7b7b7b7b7b",
+  image: "/SonTung.jpg",
   genre: ["Pop", "R&B"],
   followers: 5000000,
   albums: [
@@ -12,13 +12,13 @@ const artist = {
       id: "album1",
       name: "Sky Tour",
       releaseDate: "2020-06-07",
-      image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6",
+      image: "/Skytour.jpg",
     },
     {
       id: "album2",
       name: "M-TP M-TP",
       releaseDate: "2017-12-12",
-      image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6",
+      image: "/MTP.jpg",
     },
   ],
   songs: [
@@ -60,7 +60,7 @@ const Artist = () => {
       <h2 className="text-white text-2xl font-bold mb-2">Popular Songs</h2>
       <ul>
         {artist.songs.map((song, index) => (
-          <li key={index} className="flex justify-between items-center py-2 border-b border-gray-800">
+          <li key={index} className="text-white flex justify-between items-center py-2 border-b border-gray-800">
             <span>{song.name}</span>
             <span className="text-gray-400">{song.duration}</span>
           </li>

@@ -6,14 +6,14 @@ import { useParams } from "react-router-dom";
 const fac = new FastAverageColor();
 
 const album = {
-  image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6",
-  name: "Đánh đổi",
-  artist: "Obito",
-  year: "2022",
+  image: "/JennieSpotify.jpg",
+  name: "Ruby",
+  artist: "Jennie",
+  year: "2025",
   date: "12/10/2024",
   tracks: [
-    { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Hà Nội", duration: "2:45" },
-    { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Đánh đổi", duration: "3:46" }
+    { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Intro: JANE with FKJ", duration: "1:38" },
+    { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Like Jennie", duration: "2:03" }
   ]
 };
 const Album = () => {
