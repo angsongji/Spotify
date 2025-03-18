@@ -17,17 +17,17 @@ const ArtistSongs = () => {
     closeDeleteModal();
   };
 
-  //edit
-  const openEditModal = () => {
+  //add-edit
+  const openAddEditModal = () => {
     setIsEditModalOpen(true);
   };
 
-  const closeEditModal = (e) => {
+  const closeAddEditModal = (e) => {
     setIsEditModalOpen(false);
   };
 
   const handleSave = () => {
-    closeEditModal();
+    closeAddEditModal();
   };
 
   return (
@@ -61,7 +61,7 @@ const ArtistSongs = () => {
             <td className="p-3">
               <div className="flex item-center gap-3 space-x-2">
                 <button
-                  onClick={openEditModal}
+                  onClick={openAddEditModal}
                   className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
                 >
                   <FaEdit className="" />
@@ -89,7 +89,7 @@ const ArtistSongs = () => {
             <td className="p-3">
               <div className="flex item-center gap-3 space-x-2">
                 <button
-                  onClick={openEditModal}
+                  onClick={openAddEditModal}
                   className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
                 >
                   <FaEdit className="" />
@@ -117,7 +117,7 @@ const ArtistSongs = () => {
             <td className="p-3">
               <div className="flex item-center gap-3 space-x-2">
                 <button
-                  onClick={openEditModal}
+                  onClick={openAddEditModal}
                   className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
                 >
                   <FaEdit className="" />
@@ -135,7 +135,7 @@ const ArtistSongs = () => {
       </table>
 
       {/* Nút thêm bài hát */}
-      <button className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 shadow-lg hover:shadow-xl">
+      <button onClick={openAddEditModal} className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 shadow-lg hover:shadow-xl">
         <span className="text-2xl">+</span>
       </button>
 
@@ -189,7 +189,7 @@ const ArtistSongs = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg w-[400px] relative">
             {/* Nút đóng */}
             <button
-              onClick={closeEditModal}
+              onClick={closeAddEditModal}
               className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
             >
               <FaTimes className="text-lg" />
@@ -237,7 +237,7 @@ const ArtistSongs = () => {
             </div>
 
             {/* Nút lưu */}
-            <button className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+            <button onClick={handleSave} className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
               Lưu thay đổi
             </button>
           </div>

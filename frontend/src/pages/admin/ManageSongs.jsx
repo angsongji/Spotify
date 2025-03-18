@@ -4,6 +4,7 @@ import { FaSearch, FaEdit, FaTrash, FaTimes } from "react-icons/fa"; // Import c
 export default function ManageSongs() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [status, setStatus] = useState(true); // true = Bật, false = Tắt
 
   // Hàm mở popup xác nhận xóa
   const openDeleteModal = () => {
@@ -246,6 +247,27 @@ export default function ManageSongs() {
               <label className="block text-sm font-medium">Ảnh bìa</label>
               <input type="file" className="w-full border rounded p-2" />
             </div>
+            {/* Trạng thái Toggle Switch */}
+            <div className="mb-4 flex items-center space-x-3">
+                <label className="block text-gray-700 font-medium">
+                  Trạng thái
+                </label>
+                <div
+                  className={`w-10 h-5 flex items-center rounded-full p-1 cursor-pointer transition ${
+                    status ? "bg-green-500" : "bg-gray-400"
+                  }`}
+                  onClick={() => setStatus(!status)}
+                >
+                  <div
+                    className={`w-4 h-4 bg-white rounded-full shadow-md transform transition ${
+                      status ? "translate-x-4" : ""
+                    }`}
+                  />
+                </div>
+                <p className="mt-1 text-sm text-gray-600">
+                  {status ? "Bật" : "Tắt"}
+                </p>
+              </div>
 
             {/* Nút lưu */}
             <button className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
