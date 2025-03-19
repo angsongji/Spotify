@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import '../../index.css'
 
+
 const albums = [
-  { id: 1, name: "Ruby", artist: "JENNIE", image: "/JennieSpotify.jpg" },
-  { id: 2, name: "Lặng", artist: "Shiki", image: "/ShikiSpotify.jpg" },
-  { id: 3, name: "THE WXRDIES", artist: "Wxrdie", image: "/WxrdieSpotify.jpg" },
-  { id: 4, name: "Đánh Đổi", artist: "Obito, Shiki", image: "/ObitoSpotify1.jpg" },
-  { id: 5, name: "Từng Ngày Như Mãi Mãi", artist: "buitruonglinh", image: "/BuiTruongLinhSpotify.jpg" },
+  { id: 0, name: "Ruby", artist: "JENNIE", image: "/JennieSpotify.jpg" },
+  { id: 1, name: "Lặng", artist: "Shiki", image: "/ShikiSpotify.jpg" },
+  { id: 2, name: "THE WXRDIES", artist: "Wxrdie", image: "/WxrdieSpotify.jpg" },
+  { id: 3, name: "Đánh Đổi", artist: "Obito, Shiki", image: "/ObitoSpotify1.jpg" },
+  { id: 4, name: "Từng Ngày Như Mãi Mãi", artist: "buitruonglinh", image: "/BuiTruongLinhSpotify.jpg" },
 ];
 
 const artists = [
@@ -52,6 +53,7 @@ const Home = () => {
     setActiveFilter(filter);
   };
 
+
   const filteredAlbums = activeFilter === 'All' || activeFilter === 'Music' ? albums : [];
   const filteredPodcasts = activeFilter === 'Podcasts' ? podcasts : [];
 
@@ -62,6 +64,7 @@ const Home = () => {
       <button className="text-gray-400 hover:text-white transition cursor-pointer text-sm">Show all</button>
     </div>
   );
+
 
   // Thẻ Album
   const AlbumCard = ({ album }) => {
@@ -103,6 +106,7 @@ const Home = () => {
       <FilterButtons activeFilter={activeFilter} onFilterChange={handleFilterChange} />
 
 
+
       {filteredAlbums.length > 0 && (
         <>
           <SectionTitle title="Popular Albums" />
@@ -127,5 +131,5 @@ const Home = () => {
 
 
 
-export default Home;
 
+export default Home;

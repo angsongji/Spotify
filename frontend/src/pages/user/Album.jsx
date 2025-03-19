@@ -5,20 +5,67 @@ import { useParams } from "react-router-dom";
 
 const fac = new FastAverageColor();
 
-const album = {
-  image: "/JennieSpotify.jpg",
-  name: "Ruby",
-  artist: "Jennie",
-  year: "2025",
-  date: "12/10/2024",
-  tracks: [
-    { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Intro: JANE with FKJ", duration: "1:38" },
-    { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Like Jennie", duration: "2:03" }
-  ]
-};
+
+const albums = [
+  {
+    image: "/JennieSpotify.jpg",
+    name: "Ruby",
+    artist: "Jennie",
+    year: "2025",
+    date: "12/10/2024",
+    tracks: [
+      { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Intro: JANE with FKJ", duration: "1:38" },
+      { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Like Jennie", duration: "2:03" }
+    ]
+  },
+  {
+    image: "/ShikiSpotify.jpg",
+    name: "Lặng",
+    artist: "Shiki",
+    year: "2025",
+    date: "10/2024",
+    tracks: [
+      { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "1000 Ánh Mắt", duration: "2:32" },
+      { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Anh vẫn đợi", duration: "2:32" }
+    ]
+  },
+  {
+    image: "/WxrdieSpotify.jpg",
+    name: "The Wxrdies",
+    artist: "Wxrdie",
+    year: "2025",
+    date: "12/10/2024",
+    tracks: [
+      { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Mời Em", duration: "3:23" },
+      { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Tim Anh Ghen", duration: "4:39" }
+    ]
+  },
+  {
+    image: "/ObitoSpotify1.jpg",
+    name: "Đánh Đổi",
+    artist: "Obito",
+    year: "2025",
+    date: "28/10/2024",
+    tracks: [
+      { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "1000 Ánh Mắt", duration: "1:38" },
+      { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Track 06", duration: "2:03" }
+    ]
+  },
+  {
+    image: "/BuiTruongLinhSpotify.jpg",
+    name: "Từng Ngày Như Mãi Mãi",
+    artist: "BuiTruongLinh",
+    year: "2025",
+    date: "12/10/2024",
+    tracks: [
+      { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Giờ Thì", duration: "1:38" },
+      { image: "https://i.scdn.co/image/ab67616d00001e02a06a6b51d0dc296d48505ee6", name: "Từng Ngày Yêu Em", duration: "2:03" }
+    ]
+  }
+]
 const Album = () => {
 
-  const { id } = useParams(); // Đây là id của album, từ id này gọi api để truyền dữ liệu cho biến album
+  const { albumId } = useParams(); // Đây là id của album, từ id này gọi api để truyền dữ liệu cho biến album
   const [colorMain, setColorMain] = useState("#ffffff");
   const [backgroundStyle, setBackgroundStyle] = useState("");
   //Mảng album này là dữ liệu test thôi, lúc sau sẽ là từ id album gọi api lên để lấy dữ lệu album
@@ -39,16 +86,20 @@ const Album = () => {
     // Tạo background linear-gradient với góc 50 độ
     return `linear-gradient(${angle}deg, rgba(${r}, ${g}, ${b}, ${opacityStart}), rgba(${r}, ${g}, ${b}, ${opacityEnd}))`;
   }
+  console.log(albumId)
+  // if (!albums[id*1]) {
+  //   return <p className="text-white text-center">Album không tồn tại!</p>;
+  // }
 
   useEffect(() => {
-    fac.getColorAsync(album.image).then(color => {
+    fac.getColorAsync(albums[Number(albumId)].image).then(color => {
       console.log(color.hex);
       setColorMain(color.hex);
       let bg = generateLinearGradient(color.hex, 0.7, 0.4, 180);
       setBackgroundStyle(bg);
       console.log(color.hex); // Màu chủ đạo
     });
-  }, [album.image]); // useEffect chỉ chạy khi album.image thay đổi
+  }, [albums[Number(albumId)].image]); // useEffect chỉ chạy khi album.image thay đổi
 
   return (
     <div className='pb-10 bg-[#121212]'>
@@ -56,16 +107,16 @@ const Album = () => {
         className="text-white flex gap-8 flex-col md:flex-row md:items-center p-5"
         style={{ background: backgroundStyle }} // Đã cập nhật đúng màu sau khi get
       >
-        <img className="w-48 h-48 rounded" src={album.image} alt={album.name} />
+        <img className="w-48 h-48 rounded" src={albums[Number(albumId)].image} alt={albums[Number(albumId)].name} />
         <div className="flex flex-col justify-center">
           <p>Album</p>
-          <h1 className="text-5xl font-bold mb-4 md:text-7xl">{album.name}</h1>
+          <h1 className="text-5xl font-bold mb-4 md:text-7xl">{albums[Number(albumId)].name}</h1>
           <p className="mt-1 flex items-center text-gray-400 text-sm">
-            <img className="w-5 rounded-full" src={album.image} alt="Spotify Logo" />
-            <b className="pl-2">{album.artist} • </b>
-            <b className="pl-2">{album.date} •</b>
-            <b className="pl-2">{album.tracks.length} yêu thích •</b>
-            <b className="pl-2">{album.tracks.length} bài hát</b>
+            <img className="w-5 rounded-full" src={albums[Number(albumId)].image} alt="Spotify Logo" />
+            <b className="pl-2">{albums[Number(albumId)].artist} • </b>
+            <b className="pl-2">{albums[Number(albumId)].date} •</b>
+            <b className="pl-2">{albums[Number(albumId)].tracks.length} yêu thích •</b>
+            <b className="pl-2">{albums[Number(albumId)].tracks.length} bài hát</b>
           </p>
         </div>
       </div>
@@ -81,7 +132,7 @@ const Album = () => {
         </div>
 
         <ul>
-          {album.tracks.map((track, index) => (
+          {albums[Number(albumId)].tracks.map((track, index) => (
             <li key={index} className="h-15 w-full flex justify-between items-center py-2 px-5 border-b border-gray-800 hover:bg-gray-950 cursor-pointer">
               <div className="flex items-center text-white gap-3">
                 <span className="text-gray-500">{index + 1}</span>
