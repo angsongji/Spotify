@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import '../../index.css'
 
-
 const albums = [
   { id: 1, name: "Ruby", artist: "JENNIE", image: "/JennieSpotify.jpg" },
   { id: 2, name: "Lặng", artist: "Shiki", image: "/ShikiSpotify.jpg" },
@@ -53,7 +52,6 @@ const Home = () => {
     setActiveFilter(filter);
   };
 
-
   const filteredAlbums = activeFilter === 'All' || activeFilter === 'Music' ? albums : [];
   const filteredPodcasts = activeFilter === 'Podcasts' ? podcasts : [];
 
@@ -64,7 +62,6 @@ const Home = () => {
       <button className="text-gray-400 hover:text-white transition cursor-pointer text-sm">Show all</button>
     </div>
   );
-
 
   // Thẻ Album
   const AlbumCard = ({ album }) => {
@@ -106,7 +103,6 @@ const Home = () => {
       <FilterButtons activeFilter={activeFilter} onFilterChange={handleFilterChange} />
 
 
-
       {filteredAlbums.length > 0 && (
         <>
           <SectionTitle title="Popular Albums" />
@@ -131,5 +127,5 @@ const Home = () => {
 
 
 
-
 export default Home;
+
