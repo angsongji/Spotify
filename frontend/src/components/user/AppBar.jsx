@@ -4,17 +4,25 @@ import { useNavigate } from "react-router-dom";
 
 const albums = [
     { id: "album1", name: "Sky Tour", type: "Album", artist: "Sơn Tùng M-TP", cover: "/Skytour.jpg" },
-    { id: "album2", name: "M-TP M-TP", type: "Album", artist: "Sơn Tùng M-TP", cover: "/MTP.jpg" }
+    { id: "album2", name: "M-TP M-TP", type: "Album", artist: "Sơn Tùng M-TP", cover: "/MTP.jpg" },
+    { id: "album3", name: "Thương em là điều anh không thể ngờ", type: "Album", artist: "Noo Phước Thịnh", cover: "/Thuongemladieuanhkhongthengo.jpg" },
+    { id: "album4", name: "M-TP M-TP", type: "Album", artist: "Sơn Tùng M-TP", cover: "/MTP.jpg" }
 ];
 
 const songs = [
     { id: "song1", name: "Lạc Trôi", type: "Song", artist: "Sơn Tùng M-TP", cover: "/Lactroi.jpg" },
-    { id: "song2", name: "Solo", type: "Song", artist: "Jennie", cover: "/Solo.jpg" }
+    { id: "song2", name: "Solo", type: "Song", artist: "Jennie", cover: "/Solo.jpg" },
+    { id: "song3", name: "Lạc Trôi", type: "Song", artist: "Sơn Tùng M-TP", cover: "/Lactroi.jpg" },
+    { id: "song4", name: "Solo", type: "Song", artist: "Jennie", cover: "/Solo.jpg" }
+
 ];
 
 const artists = [
     { id: "1", name: "Sơn Tùng M-TP", type: "Artist", cover: "/SonTung.jpg" },
-    { id: "2", name: "Jennie", type: "Artist", cover: "/JennieSpotify.jpg" }
+    { id: "2", name: "Jennie", type: "Artist", cover: "/JennieSpotify.jpg" },
+    { id: "3", name: "Sơn Tùng M-TP", type: "Artist", cover: "/SonTung.jpg" },
+    { id: "4", name: "Jennie", type: "Artist", cover: "/JennieSpotify.jpg" }
+
 ];
 
 const AppBar = () => {
@@ -30,22 +38,23 @@ const AppBar = () => {
             return;
         }
 
+        const lowercasedTerm = searchTerm.toLowerCase();
         const results = [];
 
         artists.forEach(artist => {
-            if (artist.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+            if (artist.name.toLowerCase().includes(lowercasedTerm)) {
                 results.push({ type: 'Artist', ...artist });
             }
         });
 
         albums.forEach(album => {
-            if (album.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+            if (album.name.toLowerCase().includes(lowercasedTerm)) {
                 results.push({ type: 'Album', ...album });
             }
         });
 
         songs.forEach(song => {
-            if (song.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+            if (song.name.toLowerCase().includes(lowercasedTerm)) {
                 results.push({ type: 'Song', ...song });
             }
         });
