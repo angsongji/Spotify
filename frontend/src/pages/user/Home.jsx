@@ -12,12 +12,12 @@ const albums = [
 ];
 
 const artists = [
-  { id: 1, name: "Noo Phước Thịnh", image: "/NooPhuocThinh.jpg" },
+  { id: 0, name: "Noo Phước Thịnh", image: "/NooPhuocThinh.jpg" },
   { id: 1, name: "HIEUTHUHAI", image: "/HTH.jpg" },
-  { id: 1, name: "Sơn Tùng M-TP", image: "/SonTung.jpg" },
-  { id: 1, name: "Dương Domic", image: "/DuongDomic.jpg" },
-  { id: 1, name: "ChiPu", image: "/ChiPu.jpg" },
-  { id: 1, name: "Bích Phương", image: "/BichPhuong.jpg" },
+  { id: 2, name: "Sơn Tùng M-TP", image: "/SonTung.jpg" },
+  { id: 3, name: "Dương Domic", image: "/DuongDomic.jpg" },
+  { id: 4, name: "ChiPu", image: "/ChiPu.jpg" },
+  { id: 5, name: "Bích Phương", image: "/BichPhuong.jpg" },
 ];
 const podcasts = [
   { name: "Không thể say", description: " Không Thể Say là bài hát mới được HIEUTHUHAI chính thức ra mắt các fan hâm mộ vào tối 19/4/2023", image: "/HTH.jpg" },

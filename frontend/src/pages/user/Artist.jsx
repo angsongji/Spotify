@@ -8,77 +8,75 @@ const fac = new FastAverageColor();
 const artists = [
   {
     id: "1",
-    name: "Sơn Tùng M-TP",
-    avatar: "https://i.scdn.co/image/ab67616100005174449c7d96a5a5c5db5d5c5d5c",
-    image: "/SonTung.jpg",
+    name: "Noo Phước Thịnh",
+    image: "/NooPhuocThinh.jpg",
     genre: ["Pop", "R&B"],
-    followers: 5000000,
+    followers: 1000000,
     albums: [
       {
         id: "album1",
-        name: "Sky Tour",
-        releaseDate: "2020-06-07",
-        image: "/Skytour.jpg",
+        name: "Album 2016",
+        releaseDate: "2016-06-07",
+        image: "/Nhuphutbandau.jpg",
       },
       {
         id: "album2",
-        name: "M-TP M-TP",
-        releaseDate: "2017-12-12",
-        image: "/MTP.jpg",
+        name: "Album 2018",
+        releaseDate: "2018-12-12",
+        image: "/Thuongemladieuanhkhongthengo.jpg",
       },
     ],
     songs: [
       {
         id: "track1",
-        name: "Chạy Ngay Đi",
+        name: "Như Phút Ban Đầu",
         duration: "3:50",
         playCount: 12000000,
       },
       {
         id: "track2",
-        name: "Hãy Trao Cho Anh",
+        name: "Thương Em Là Điều Anh Không Thể Ngờ",
         duration: "4:10",
         playCount: 15000000,
       },
     ],
-    bio: "Sơn Tùng M-TP là một ca sĩ, nhạc sĩ và nhà sản xuất âm nhạc người Việt Nam. Anh là một trong những nghệ sĩ thành công nhất của Vpop với nhiều bản hit đình đám.",
+    bio: "Nguyễn Phước Thịnh (sinh ngày 18 tháng 12 năm 1988), thường được biết đến với nghệ danh Noo Phước Thịnh, là một nam ca sĩ, vũ công kiêm diễn viên người Việt Nam. Anh được đánh giá là một trong những nghệ sĩ âm nhạc Việt Nam xuất sắc nhất trong thế hệ của mình.",
   },
   {
     id: "2",
-    name: "Sơn Tùng M-TP",
-    avatar: "https://i.scdn.co/image/ab67616100005174449c7d96a5a5c5db5d5c5d5c",
-    image: "/SonTung.jpg",
+    name: "Hiếu Thứ Hai",
+    image: "/HTH.jpg",
     genre: ["Pop", "R&B"],
-    followers: 5000000,
+    followers: 3000000,
     albums: [
       {
         id: "album1",
-        name: "Sky Tour",
-        releaseDate: "2020-06-07",
-        image: "/Skytour.jpg",
+        name: "Album 2018",
+        releaseDate: "2018-06-07",
+        image: "/Ngumotminh.jpg",
       },
       {
         id: "album2",
-        name: "M-TP M-TP",
-        releaseDate: "2017-12-12",
-        image: "/MTP.jpg",
+        name: "Album 2023",
+        releaseDate: "2023-12-12",
+        image: "/Khongthesay.jpg",
       },
     ],
     songs: [
       {
         id: "track1",
-        name: "Chạy Ngay Đi",
+        name: "Ngủ Một Mình",
         duration: "3:50",
         playCount: 12000000,
       },
       {
         id: "track2",
-        name: "Hãy Trao Cho Anh",
+        name: "Không Thể Say",
         duration: "4:10",
         playCount: 15000000,
       },
     ],
-    bio: "Sơn Tùng M-TP là một ca sĩ, nhạc sĩ và nhà sản xuất âm nhạc người Việt Nam. Anh là một trong những nghệ sĩ thành công nhất của Vpop với nhiều bản hit đình đám.",
+    bio: "Trần Minh Hiếu (sinh ngày 28 tháng 9 năm 1999), thường được biết đến với nghệ danh Hieuthuhai (viết cách điệu là HIEUTHUHAI hay cách viết khác là hieuthuhai),[a] là một nam rapper và ca sĩ kiêm sáng tác nhạc người Việt Nam. Anh là thành viên của tổ đội Gerdnang.",
   },
   {
     id: "3",
@@ -119,114 +117,111 @@ const artists = [
   },
   {
     id: "4",
-    name: "Sơn Tùng M-TP",
-    avatar: "https://i.scdn.co/image/ab67616100005174449c7d96a5a5c5db5d5c5d5c",
-    image: "/SonTung.jpg",
+    name: "Dương Domic",
+    image: "/DuongDomic.jpg",
     genre: ["Pop", "R&B"],
-    followers: 5000000,
+    followers: 2000000,
     albums: [
       {
         id: "album1",
-        name: "Sky Tour",
-        releaseDate: "2020-06-07",
-        image: "/Skytour.jpg",
+        name: "Album 2023",
+        releaseDate: "2023-06-07",
+        image: "/Tranbonho.jpg",
       },
       {
         id: "album2",
-        name: "M-TP M-TP",
-        releaseDate: "2017-12-12",
-        image: "/MTP.jpg",
+        name: "Album 2024",
+        releaseDate: "2024-12-12",
+        image: "/Matketnoi.jpg",
       },
     ],
     songs: [
       {
         id: "track1",
-        name: "Chạy Ngay Đi",
+        name: "Tràn bộ nhớ",
         duration: "3:50",
         playCount: 12000000,
       },
       {
         id: "track2",
-        name: "Hãy Trao Cho Anh",
+        name: "Mất kết nôi",
         duration: "4:10",
         playCount: 15000000,
       },
     ],
-    bio: "Sơn Tùng M-TP là một ca sĩ, nhạc sĩ và nhà sản xuất âm nhạc người Việt Nam. Anh là một trong những nghệ sĩ thành công nhất của Vpop với nhiều bản hit đình đám.",
+    bio: "Trần Đăng Dương (sinh ngày 31 tháng 8 năm 2000), thường được biết đến với nghệ danh Dương Domic, là một nam ca sĩ kiêm sáng tác nhạc, rapper người Việt Nam. Xuất thân từ giới underground, anh từng có thời gian trở thành thực tập sinh cho công ty giải trí IF Entertainment của Hàn Quốc. ",
   },
   {
     id: "5",
-    name: "Sơn Tùng M-TP",
-    avatar: "https://i.scdn.co/image/ab67616100005174449c7d96a5a5c5db5d5c5d5c",
-    image: "/SonTung.jpg",
+    name: "Chi Pu",
+    image: "/ChiPu.jpg",
     genre: ["Pop", "R&B"],
-    followers: 5000000,
+    followers: 1500000,
     albums: [
       {
         id: "album1",
-        name: "Sky Tour",
-        releaseDate: "2020-06-07",
-        image: "/Skytour.jpg",
+        name: "Album 2018",
+        releaseDate: "2018-06-07",
+        image: "/Anhoiolai.jpg",
       },
       {
         id: "album2",
-        name: "M-TP M-TP",
-        releaseDate: "2017-12-12",
-        image: "/MTP.jpg",
+        name: "Album 2020",
+        releaseDate: "2020-12-12",
+        image: "/Tuhomnay.jpg",
       },
     ],
     songs: [
       {
         id: "track1",
-        name: "Chạy Ngay Đi",
+        name: "Anh Ơi Ở Lại",
         duration: "3:50",
         playCount: 12000000,
       },
       {
         id: "track2",
-        name: "Hãy Trao Cho Anh",
+        name: "Từ Hôm Nay",
         duration: "4:10",
         playCount: 15000000,
       },
     ],
-    bio: "Sơn Tùng M-TP là một ca sĩ, nhạc sĩ và nhà sản xuất âm nhạc người Việt Nam. Anh là một trong những nghệ sĩ thành công nhất của Vpop với nhiều bản hit đình đám.",
+    bio: "Nguyễn Thùy Chi (sinh ngày 14 tháng 6 năm 1993), thường được biết đến với nghệ danh Chi Pu, là một nữ ca sĩ, diễn viên, người dẫn chương trình kiêm người mẫu người Việt Nam. ",
   },
   {
     id: "6",
-    name: "Sơn Tùng M-TP",
-    avatar: "https://i.scdn.co/image/ab67616100005174449c7d96a5a5c5db5d5c5d5c",
-    image: "/SonTung.jpg",
+    name: "Bích Phương",
+    image: "/BichPhuong.jpg",
     genre: ["Pop", "R&B"],
-    followers: 5000000,
+    followers: 2000000,
     albums: [
       {
         id: "album1",
-        name: "Sky Tour",
-        releaseDate: "2020-06-07",
-        image: "/Skytour.jpg",
+        name: "Album 2016",
+        releaseDate: "2016-06-07",
+        image: "/Minhyeunhaudi.jpg",
       },
       {
         id: "album2",
-        name: "M-TP M-TP",
-        releaseDate: "2017-12-12",
-        image: "/MTP.jpg",
+        name: "Album 2023",
+        releaseDate: "2023-12-12",
+        image: "/Nangchentieusau.jpg",
       },
     ],
     songs: [
       {
         id: "track1",
-        name: "Chạy Ngay Đi",
+        name: "Mình Yêu Nhau Đi",
         duration: "3:50",
         playCount: 12000000,
       },
       {
         id: "track2",
-        name: "Hãy Trao Cho Anh",
+        name: "Nâng Chén Tiêu Sầu",
         duration: "4:10",
         playCount: 15000000,
       },
     ],
-    bio: "Sơn Tùng M-TP là một ca sĩ, nhạc sĩ và nhà sản xuất âm nhạc người Việt Nam. Anh là một trong những nghệ sĩ thành công nhất của Vpop với nhiều bản hit đình đám.",
+    bio: "Bùi Thị Bích Phương (sinh ngày 30 tháng 9 năm 1989),[1] thường được biết đến với nghệ danh Bích Phương, là một nữ ca sĩ người Việt Nam. Nổi danh từ mùa thứ ba của cuộc thi Vietnam Idol, cô đã giành được nhiều thành công đáng kể trong suốt sự nghiệp của mình, bao gồm một giải Cống hiến và nhiều giải thưởng khác.",
   }
 ]
   
@@ -253,7 +248,7 @@ const Artist = () => {
     // Tạo background linear-gradient với góc 50 độ
     return `linear-gradient(${angle}deg, rgba(${r}, ${g}, ${b}, ${opacityStart}), rgba(${r}, ${g}, ${b}, ${opacityEnd}))`;
   }
-  console.log(artistId)
+  
   // if (!albums[id*1]) {
   //   return <p className="text-white text-center">Album không tồn tại!</p>;
   // }
@@ -270,8 +265,8 @@ const Artist = () => {
 
   return (
     <div className="p-6" style={{ background: backgroundStyle }}>
-      <img src={artists[Number(artistId)].image} alt={artists[Number(artistId)].name} className="w-64 h-64 rounded-full mb-4" />
-      <h1 className="text-white text-3xl font-bold mb-2">{artists[Number(artistId)].name}</h1>
+      <img src={artists[Number(artistId)].image}  className="w-64 h-64 rounded-full mb-4" />
+      <h1 className="text-3xl font-bold mb-2" style={{ color: colorMain }}>{artists[Number(artistId)].name}</h1>
       <p className="text-gray-400 mb-4">{artists[Number(artistId)].followers} followers</p>
       <p className="text-gray-400 mb-4">{artists[Number(artistId)].bio}</p>
       <button className="border border-white text-white px-6 py-3 rounded-full mb-4 flex items-center">
