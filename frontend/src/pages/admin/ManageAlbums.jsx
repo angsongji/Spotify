@@ -2,23 +2,9 @@ import React, { useState } from "react";
 import { FaSearch, FaEdit, FaTrash, FaPlus, FaTimes } from "react-icons/fa"; // Import thêm FaTimes
 
 export default function ManageAlbums() {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // State để điều khiển hiển thị popup
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [status, setStatus] = useState(true); // true = Bật, false = Tắt
 
-  // Hàm mở popup xác nhận xóa
-  const openDeleteModal = () => {
-    setIsDeleteModalOpen(true); // Mở popup
-  };
-
-  // Hàm đóng popup xác nhận xóa
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false); // Đóng popup
-  };
-
-  const handleDeleteAlbum = () => {
-    closeDeleteModal();
-  };
   //edit
   const openEditModal = () => {
     setIsEditModalOpen(true);
@@ -81,10 +67,7 @@ export default function ManageAlbums() {
                 >
                   <FaEdit className="text-lg" />
                 </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
+                <button className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
                   <FaTrash className="text-lg" />
                 </button>
               </div>
@@ -109,10 +92,7 @@ export default function ManageAlbums() {
                 >
                   <FaEdit className="text-lg" />
                 </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
+                <button className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
                   <FaTrash className="text-lg" />
                 </button>
               </div>
@@ -137,10 +117,7 @@ export default function ManageAlbums() {
                 >
                   <FaEdit className="text-lg" />
                 </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
+                <button className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
                   <FaTrash className="text-lg" />
                 </button>
               </div>
@@ -149,56 +126,12 @@ export default function ManageAlbums() {
         </tbody>
       </table>
 
-      {/* Popup xác nhận xóa */}
-      {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white border rounded-lg p-6 w-96">
-            <div className="flex justify-end items-center mb-2">
-              <button
-                onClick={closeDeleteModal}
-                className="flex text-gray-500 hover:text-gray-700"
-              >
-                <FaTimes className="text-lg" />
-              </button>
-            </div>
-
-            {/* Header */}
-            <h2 className="text-xl font-semibold text-center mb-4">
-              Xác nhận xóa
-            </h2>
-
-            {/* Nội dung */}
-            <p className="text-gray-700 mb-8">
-              Bạn có chắc chắn muốn xóa album{" "}
-              <span className="font-semibold"></span> không? Hành động này không
-              thể hoàn tác.
-            </p>
-
-            {/* Nút hành động */}
-            <div className="flex justify-center gap-10 mt-5">
-              <button
-                onClick={closeDeleteModal}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Hủy
-              </button>
-              <button
-                onClick={handleDeleteAlbum}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-              >
-                Xóa
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Popup sửa album */}
       {isEditModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             {/* Header */}
-            <div className="flex justify-end mb-4">
+            <div className="flex justify-end mb-2">
               <button
                 onClick={closeEditModal}
                 className="flex text-gray-500 hover:text-gray-700"
@@ -206,7 +139,8 @@ export default function ManageAlbums() {
                 <FaTimes className="text-lg" />
               </button>
             </div>
-
+            
+            <h2 className="text-xl font-semibold mb-4">Chỉnh sửa album</h2>
             {/* Form */}
             <form>
               {/* Tên Album */}
@@ -214,19 +148,30 @@ export default function ManageAlbums() {
                 <label className="block text-gray-700 mb-2">Tên Album</label>
                 <input
                   type="text"
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                  placeholder="Nhập tên album"
+                  disabled
+                  className="text-gray-500 w-full p-2 border border-gray-300 rounded-md"
+                  value="Album One"
                 />
               </div>
 
-              {/* Ngày Phát Hành */}
+              {/* Tên nghệ sĩ */}
               <div className="mb-4">
-                <label className="block text-gray-700 mb-2">
-                  Ngày Phát Hành
-                </label>
+                <label className="block text-gray-700 mb-2">Tên nghệ sĩ</label>
                 <input
-                  type="date"
-                  className="w-full p-2 border border-gray-300 rounded-md"
+                  type="text"
+                  disabled
+                  className="text-gray-500 w-full p-2 border border-gray-300 rounded-md"
+                  value="Tên nghệ sĩ"
+                />
+              </div>
+              {/* Số bài hát*/}
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Số bài hát</label>
+                <input
+                  type="text"
+                  disabled
+                  className="text-gray-500 w-full p-2 border border-gray-300 rounded-md"
+                  value="10"
                 />
               </div>
 
@@ -236,14 +181,14 @@ export default function ManageAlbums() {
                   Trạng thái
                 </label>
                 <div
-                  className={`w-10 h-5 flex items-center rounded-full p-1 cursor-pointer transition ${
+                  className={`w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition-all ${
                     status ? "bg-green-500" : "bg-gray-400"
                   }`}
                   onClick={() => setStatus(!status)}
                 >
                   <div
-                    className={`w-4 h-4 bg-white rounded-full shadow-md transform transition ${
-                      status ? "translate-x-4" : ""
+                    className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
+                      status ? "translate-x-6" : "translate-x-0"
                     }`}
                   />
                 </div>

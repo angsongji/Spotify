@@ -2,23 +2,8 @@ import React, { useState } from "react";
 import { FaSearch, FaEdit, FaTrash, FaTimes } from "react-icons/fa"; // Import các icon
 
 export default function ManageSongs() {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [status, setStatus] = useState(true); // true = Bật, false = Tắt
-
-  // Hàm mở popup xác nhận xóa
-  const openDeleteModal = () => {
-    setIsDeleteModalOpen(true); // Mở popup
-  };
-
-  // Hàm đóng popup xác nhận xóa
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false); // Đóng popup
-  };
-
-  const handleDeleteSong = () => {
-    closeDeleteModal();
-  };
 
   //edit
   const openEditModal = () => {
@@ -56,9 +41,9 @@ export default function ManageSongs() {
           <tr className="bg-gray-100">
             <th className="p-3 text-left">#</th>
             <th className="p-3 text-left">Ảnh bìa</th>
+            <th className="p-3 text-left">Nghệ sĩ</th>
             <th className="p-3 text-left">Tên bài hát</th>
             <th className="p-3 text-left">Album</th>
-            <th className="p-3 text-left">Thời lượng</th>
             <th className="p-3 text-left">Ngày phát hành</th>
             <th className="p-3 text-left">Hành động</th>
           </tr>
@@ -70,9 +55,9 @@ export default function ManageSongs() {
             <td className="p-3">
               <img src="/SonTung.jpg" alt="Ảnh bìa" className="w-12 h-12" />
             </td>
+            <td className="p-3">Artist One</td>
             <td className="p-3">Song One</td>
             <td className="p-3">Album One</td>
-            <td className="p-3">3:45</td>
             <td className="p-3">2023-01-01</td>
             <td className="p-3">
               <div className="flex items-center gap-3">
@@ -82,10 +67,7 @@ export default function ManageSongs() {
                 >
                   <FaEdit className="text-lg" />
                 </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
+                <button className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
                   <FaTrash className="text-lg" />
                 </button>
               </div>
@@ -98,9 +80,9 @@ export default function ManageSongs() {
             <td className="p-3">
               <img src="/DuongDomic.jpg" alt="Ảnh bìa" className="w-12 h-12" />
             </td>
+            <td className="p-3">Artist Two</td>
             <td className="p-3">Song Two</td>
             <td className="p-3">Album Two</td>
-            <td className="p-3">4:20</td>
             <td className="p-3">2023-02-15</td>
             <td className="p-3">
               <div className="flex items-center gap-3">
@@ -110,10 +92,7 @@ export default function ManageSongs() {
                 >
                   <FaEdit className="text-lg" />
                 </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
+                <button className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
                   <FaTrash className="text-lg" />
                 </button>
               </div>
@@ -126,9 +105,9 @@ export default function ManageSongs() {
             <td className="p-3">
               <img src="/HTH.jpg" alt="Ảnh bìa" className="w-12 h-12" />
             </td>
+            <td className="p-3">Artist Three</td>
             <td className="p-3">Song Three</td>
             <td className="p-3">Album Three</td>
-            <td className="p-3">2:58</td>
             <td className="p-3">2023-03-10</td>
             <td className="p-3">
               <div className="flex items-center gap-3">
@@ -138,10 +117,7 @@ export default function ManageSongs() {
                 >
                   <FaEdit className="text-lg" />
                 </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
+                <button className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
                   <FaTrash className="text-lg" />
                 </button>
               </div>
@@ -150,124 +126,77 @@ export default function ManageSongs() {
         </tbody>
       </table>
 
-      {/* Popup xác nhận xóa */}
-      {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white border rounded-lg p-6 w-96">
-            <div className="flex justify-end items-center mb-2">
-              <button
-                onClick={closeDeleteModal}
-                className="flex text-gray-500 hover:text-gray-700"
-              >
-                <FaTimes className="text-lg" />
-              </button>
-            </div>
-
-            {/* Header */}
-            <h2 className="text-xl font-semibold text-center mb-4">
-              Xác nhận xóa
-            </h2>
-
-            {/* Nội dung */}
-            <p className="text-gray-700 mb-8">
-              Bạn có chắc chắn muốn xóa bài hát{" "}
-              <span className="font-semibold"></span> không? Hành động này không
-              thể hoàn tác.
-            </p>
-
-            {/* Nút hành động */}
-            <div className="flex justify-center gap-10 mt-5">
-              <button
-                onClick={closeDeleteModal}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Hủy
-              </button>
-              <button
-                onClick={handleDeleteSong}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-              >
-                Xóa
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Popup sửa bài hát */}
       {/* Popup chỉnh sửa */}
       {isEditModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-[400px] relative">
             {/* Nút đóng */}
-            <button
-              onClick={closeEditModal}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-            >
-              <FaTimes className="text-lg" />
-            </button>
+            <div className="flex justify-end mb-2">
+              <button
+                onClick={closeEditModal}
+                className="flex text-gray-500 hover:text-gray-700"
+              >
+                <FaTimes className="text-lg" />
+              </button>
+            </div>
 
             <h2 className="text-xl font-semibold mb-4">Chỉnh sửa bài hát</h2>
+
+            {/* Tên artist */}
+            <div className="mb-3">
+              <label className="block text-sm font-medium">Tên nghệ sĩ</label>
+              <input
+                type="text"
+                disabled
+                value="Tên artist"
+                className="text-gray-500 w-full border rounded p-2"
+              />
+            </div>
 
             {/* Tên bài hát */}
             <div className="mb-3">
               <label className="block text-sm font-medium">Tên bài hát</label>
-              <input type="text" className="w-full border rounded p-2" />
-            </div>
-            {/* Tên album */}
-            <div className="mb-3">
-              <label className="block text-sm font-medium">Tên album</label>
-              <input type="text" className="w-full border rounded p-2" />
-            </div>
-
-            {/* Thời lượng */}
-            <div className="mb-3">
-              <label className="block text-sm font-medium">Thời lượng</label>
               <input
                 type="text"
-                className="w-full border rounded p-2"
-                placeholder="mm:ss"
+                disabled
+                value="Tên bài hát"
+                className="text-gray-500 w-full border rounded p-2"
               />
             </div>
 
-            {/* Ngày phát hành */}
+            {/* Tên album */}
             <div className="mb-3">
-              <label className="block text-sm font-medium">
-                Ngày phát hành
-              </label>
-              <input type="date" className="w-full border rounded p-2" />
+              <label className="block text-sm font-medium">Tên album</label>
+              <input
+                type="text"
+                disabled
+                value="Tên album"
+                className="text-gray-500 w-full border rounded p-2"
+              />
             </div>
-            {/* Tải file nhạc */}
-            <div className="mb-3">
-              <label className="block text-sm font-medium">File nhạc</label>
-              <input type="file" className="w-full border rounded p-2" />
-            </div>
-            {/* Ảnh bìa */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium">Ảnh bìa</label>
-              <input type="file" className="w-full border rounded p-2" />
-            </div>
+
             {/* Trạng thái Toggle Switch */}
             <div className="mb-4 flex items-center space-x-3">
-                <label className="block text-gray-700 font-medium">
-                  Trạng thái
-                </label>
+              <label className="block text-gray-700 font-medium">
+                Trạng thái
+              </label>
+              <div
+                className={`w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition-all ${
+                  status ? "bg-green-500" : "bg-gray-400"
+                }`}
+                onClick={() => setStatus(!status)}
+              >
                 <div
-                  className={`w-10 h-5 flex items-center rounded-full p-1 cursor-pointer transition ${
-                    status ? "bg-green-500" : "bg-gray-400"
+                  className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
+                    status ? "translate-x-6" : "translate-x-0"
                   }`}
-                  onClick={() => setStatus(!status)}
-                >
-                  <div
-                    className={`w-4 h-4 bg-white rounded-full shadow-md transform transition ${
-                      status ? "translate-x-4" : ""
-                    }`}
-                  />
-                </div>
-                <p className="mt-1 text-sm text-gray-600">
-                  {status ? "Bật" : "Tắt"}
-                </p>
+                />
               </div>
+              <p className="mt-1 text-sm text-gray-600">
+                {status ? "Hiện" : "Ẩn"}
+              </p>
+            </div>
 
             {/* Nút lưu */}
             <button className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
