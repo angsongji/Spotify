@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaHome, FaSearch, FaBell, FaGlobe } from 'react-icons/fa';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link  } from "react-router-dom";
+import PopupMenu from '../PopupMenu'; // Import PopupMenu component
+import { Dropdown } from 'antd';
+import { Avatar } from 'antd'; // Thêm dòng này để import Avatar từ antd
 
 const albums = [
     { id: "album1", name: "Sky Tour", type: "Album", artist: "Sơn Tùng M-TP", cover: "/Skytour.jpg" },
@@ -28,8 +31,8 @@ const artists = [
 const AppBar = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const avatarRef = useRef(null);
+    // const [isMenuOpen, setIsMenuOpen] = useState(false);
+    // const avatarRef = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -62,22 +65,22 @@ const AppBar = () => {
         setSearchResults(results);
     }, [searchTerm]);
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+    // const toggleMenu = () => {
+    //     setIsMenuOpen(!isMenuOpen);
+    // };
 
-    const handleClickOutside = (event) => {
-        if (avatarRef.current && !avatarRef.current.contains(event.target)) {
-            setIsMenuOpen(false);
-        }
-    };
+    // const handleClickOutside = (event) => {
+    //     if (avatarRef.current && !avatarRef.current.contains(event.target)) {
+    //         setIsMenuOpen(false);
+    //     }
+    // };
 
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+    // useEffect(() => {
+    //     document.addEventListener('mousedown', handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleClickOutside);
+    //     };
+    // }, []);
 
     return (
         <div>
@@ -122,15 +125,19 @@ const AppBar = () => {
                     <button className="text-white px-4 py-2 rounded-full text-sm bg-gradient-to-r from-purple-500 to-pink-500">Khám phá Premium</button>
                     <FaBell className="text-white cursor-pointer" />
                     <FaGlobe className='cursor-pointer' />
-                    <div ref={avatarRef} className="relative">
-                        <img src="/Avatar.jpg" alt="Avatar" className="w-8 h-8 rounded-full cursor-pointer" onClick={toggleMenu} />
-                        {isMenuOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-10">
-                                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Account</a>
-                                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log out</a>
-                            </div>
-                        )}
+                    <div className="relative">
+                        {/* Sử dụng Dropdown với PopupMenu */}
+                        <Dropdown
+                            overlay={<PopupMenu />}
+                            trigger={['click']}
+                            placement="bottomRight"
+                        >
+                            <Avatar
+                                size="large"
+                                src="/Avatar.jpg"
+                                className="cursor-pointer"
+                            />
+                        </Dropdown>
                     </div>
                 </div>
             </div>

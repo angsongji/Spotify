@@ -16,6 +16,7 @@ import ArtistAlbums from "../pages/artist/ArtistAlbums";
 import Artist from "../pages/user/Artist";
 import Song from "../pages/user/Song";
 import Album from "../pages/user/Album";
+import PopupMenu from "../components/PopupMenu";
 import ManageCategorys from "../pages/admin/ManageCategorys";
 const router = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
             {
                 path: "/playlist/:playlistId", //xem thông tin chi tiết của playlist theo id playlist
                 element: <Playlist />
+            },
+            {
+                path: "/PopupMenu", // Thêm route cho PopupMenu
+                element: <PopupMenu />
             },
 
         ],
