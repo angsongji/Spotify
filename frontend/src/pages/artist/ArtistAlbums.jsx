@@ -46,102 +46,162 @@ const ArtistAlbums = () => {
 
   return (
     <div className="p-5">
-      {/* Tiêu đề và nút thêm album */}
-      <h1 className="text-2xl font-bold">Artist Albums</h1>
-
-      {/* Danh sách album */}
-      <div className="space-y-4">
-        {/* Album 1 */}
-        <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <img src="/ChiPu.jpg" alt="Album Cover" className="w-16 h-16" />
-              <div>
-                <h2 className="text-xl font-semibold">Album One</h2>
-                <p className="text-gray-600">2023-01-01</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <button className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600">
-                <FaEdit onClick={openAddEditModal} className="text-lg" />
-              </button>
-              <button
-                onClick={openDeleteModal}
-                className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-              >
-                <FaTrash className="text-lg" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Album 2 */}
-        <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <img
-                src="/DuongDomic.jpg"
-                alt="Album Cover"
-                className="w-16 h-16"
-              />
-              <div>
-                <h2 className="text-xl font-semibold">Album Two</h2>
-                <p className="text-gray-600">2023-02-15</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={openAddEditModal}
-                className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
-              >
-                <FaEdit className="text-lg" />
-              </button>
-              <button
-                onClick={openDeleteModal}
-                className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-              >
-                <FaTrash className="text-lg" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Album 3 */}
-        <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <img src="/HTH.jpg" alt="Album Cover" className="w-16 h-16" />
-              <div>
-                <h2 className="text-xl font-semibold">Album Three</h2>
-                <p className="text-gray-600">2023-03-10</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={openAddEditModal}
-                className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
-              >
-                <FaEdit className="text-lg" />
-              </button>
-              <button
-                onClick={openDeleteModal}
-                className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-              >
-                <FaTrash className="text-lg" />
-              </button>
-            </div>
-          </div>
-        </div>
+      <div className="flex justify-between mb-4">
+        <h1 className="text-3xl font-bold mb-4">Artist Albums</h1>
+        <button
+          onClick={openAddEditModal}
+          className="px-3 py-2 rounded-md bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 shadow-lg hover:shadow-xl"
+        >
+          <span className="text-xl">Thêm mới +</span>
+        </button>
       </div>
-
-      {/* Nút thêm album */}
-      <button
-        onClick={openAddEditModal}
-        className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 shadow-lg hover:shadow-xl"
-      >
-        <span className="text-2xl">+</span>
-      </button>
-
+      {/* Search bar */}
+      <div className="flex flex-col md:flex-row md:items-center md:space-x-4 md-6">
+        <div className="flex flex-col mb-4 mr-16">
+          <span class="text-xl mb-2">Tìm kiếm</span>
+          <input
+            id="searchName"
+            type="text"
+            placeholder="Nhập tên album"
+            className="text-xl w-[500px] p-2 border border-gray-300 rounded-md mb-4"
+          />
+        </div>
+        <div className="flex flex-col mb-4 mr-16 ">
+          <span class="text-xl mb-2">Ngày bắt đầu</span>
+          <input
+            id="searchDateStart"
+            type="date"
+            className="text-xl w-full p-2 border border-gray-300 rounded-md mb-4"
+          />
+        </div>
+        <div className="flex flex-col mb-4 mr-16">
+          <span class="text-xl mb-2">Ngày kết thúc</span>
+          <input
+            id="searchDateEnd"
+            type="date"
+            className="text-xl w-full p-2 border border-gray-300 rounded-md mb-4"
+          />
+        </div>
+        <div className="flex flex-col mb-4 mr-16">
+          <span className="text-xl mb-2">Trạng thái</span>
+          <select
+            id="statusFilter"
+            className="text-xl p-2 border border-gray-300 rounded-md mb-4"
+          >
+            <option value="all">Tất cả trạng thái</option>
+            <option value="hd">hoạt động</option>
+            <option value="an">ẩn</option>
+          </select>
+        </div>
+        <button className="px-3 py-2 rounded-md bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 shadow-lg hover:shadow-xl">
+          <span className="text-xl">Tìm kiếm</span>
+        </button>
+      </div>
+      <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full text-sm">
+          <thead class="bg-gray-100 text-gray-600 uppercase text-left">
+            <tr>
+              <th class="px-4 py-6">Mã</th>
+              <th class="px-4 py-6">Tên</th>
+              <th class="px-4 py-6">Ngày phát hành</th>
+              <th class="px-4 py-6">Trạng thái</th>
+              <th class="px-4 py-6">Hành động</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-700">
+            <tr class="border-t">
+              <td class="px-4 py-3">#2632</td>
+              <td class="flex items-center px-4 py-3">
+                <img
+                  src="/ChiPu.jpg"
+                  alt="Album Cover"
+                  class="w-12 h-12 rounded object-cover"
+                />
+                <span class="px-4">Album 1</span>
+              </td>
+              <td class="px-4 py-3">12-2-2023</td>
+              <td class="px-4 py-3">
+                <span className="px-2 py-1 rounded-md bg-green-200 text-green-800">
+                  Active
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <button className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300">
+                    <FaEdit onClick={openAddEditModal} className="text-lg" />
+                  </button>
+                  <button
+                    onClick={openDeleteModal}
+                    className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300"
+                  >
+                    <FaTrash className="text-lg" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-4 py-3">#2632</td>
+              <td class="flex items-center px-4 py-3">
+                <img
+                  src="/ChiPu.jpg"
+                  alt="Album Cover"
+                  class="w-12 h-12 rounded object-cover"
+                />
+                <span class="px-4">Album 1</span>
+              </td>
+              <td class="px-4 py-3">12-2-2023</td>
+              <td class="px-4 py-3">
+                <span className="px-2 py-1 rounded-md bg-green-200 text-green-800">
+                  Active
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <button className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300">
+                    <FaEdit onClick={openAddEditModal} className="text-lg" />
+                  </button>
+                  <button
+                    onClick={openDeleteModal}
+                    className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300"
+                  >
+                    <FaTrash className="text-lg" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-4 py-3">#2632</td>
+              <td class="flex items-center px-4 py-3">
+                <img
+                  src="/ChiPu.jpg"
+                  alt="Album Cover"
+                  class="w-12 h-12 rounded object-cover"
+                />
+                <span class="px-4">Album 1</span>
+              </td>
+              <td class="px-4 py-3">12-2-2023</td>
+              <td class="px-4 py-3">
+                <span className="px-2 py-1 rounded-md bg-red-200 text-red-600">
+                  Inactive
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <button className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300">
+                    <FaEdit onClick={openAddEditModal} className="text-lg" />
+                  </button>
+                  <button
+                    onClick={openDeleteModal}
+                    className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300"
+                  >
+                    <FaTrash className="text-lg" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       {/* Popup xác nhận xóa */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -199,7 +259,9 @@ const ArtistAlbums = () => {
                 <FaTimes className="text-lg" />
               </button>
             </div>
-
+            <h1 className="flex justify-center font-bold text-2xl mb-4">
+              Thêm album
+            </h1>
             {/* Form */}
             <form>
               {/* Tên Album */}
@@ -213,24 +275,15 @@ const ArtistAlbums = () => {
               </div>
 
               <div className="mb-3">
-                <label className="block text-sm font-medium">Chọn bài hát</label>
+                <label className="block text-sm font-medium">
+                  Chọn bài hát
+                </label>
                 <select className="w-full border rounded p-2">
                   <option>Bài hát 1</option>
                   <option>Bài hát 2</option>
                   <option>Bài hát 3</option>
                 </select>
               </div>
-
-              {/* Ngày Phát Hành
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">
-                  Ngày Phát Hành
-                </label>
-                <input
-                  type="date"
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                />
-              </div> */}
 
               {/* Tải file ảnh và file nhạc */}
               <div className="uploadImageAndVideo flex justify-between mb-8 mt-8 ml-10">

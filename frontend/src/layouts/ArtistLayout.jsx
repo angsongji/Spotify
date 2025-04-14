@@ -37,7 +37,7 @@ const ArtistLayout = () => {
                     </div>
 
                 </Header>
-                <Content style={{ margin: "16px", padding: "24px", background: "#fff" }}>
+                <Content style={{ margin: "", padding: "24px", background: "#fff" }}>
                     <Outlet /> {/* Hiển thị nội dung tương ứng với route */}
                 </Content>
             </Layout>

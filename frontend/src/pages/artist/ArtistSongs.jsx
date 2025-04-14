@@ -59,103 +59,166 @@ const ArtistSongs = () => {
   };
   return (
     <div className="p-5">
-      <h1 className="text-2xl font-bold mb-4">Artist Songs</h1>
-
-      {/* Bảng hiển thị bài hát */}
-      <table className="w-full">
-        <thead>
-          <tr className="border-b border-gray-200">
-            <th className="p-3 text-left">#</th>
-            <th className="p-3 text-left">Cover</th>
-            <th className="p-3 text-left">Title</th>
-            <th className="p-3 text-left">Date Release</th>
-            <th className="p-3 text-left">Playlist Pitch</th>
-            <th className="p-3 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* Dòng 1 */}
-          <tr className="border-b border-gray-200 hover:bg-gray-50">
-            <td className="p-3">1</td>
-            <td className="p-3">
-              <img src="SonTung.jpg" alt="Cover" className="w-12 h-12" />
-            </td>
-            <td className="p-3">Song One</td>
-            <td className="p-3">2023-01-01</td>
-            <td className="p-3">Upbeat and energetic</td>
-            <td className="p-3">
-              <div className="flex item-center gap-3 space-x-2">
-                <button
-                  onClick={openAddEditModal}
-                  className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
-                >
-                  <FaEdit className="" />
-                </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
-                  <FaTrash className="" />
-                </button>
-              </div>
-            </td>
-          </tr>
-
-          {/* Dòng 2 */}
-          <tr className="border-b border-gray-200 hover:bg-gray-50">
-            <td className="p-3">2</td>
-            <td className="p-3">
-              <img src="NooPhuocThinh.jpg" alt="Cover" className="w-12 h-12" />
-            </td>
-            <td className="p-3">Song Two</td>
-            <td className="p-3">2023-02-15</td>
-            <td className="p-3">Relaxing and chill</td>
-            <td className="p-3">
-              <div className="flex item-center gap-3 space-x-2">
-                <button
-                  onClick={openAddEditModal}
-                  className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
-                >
-                  <FaEdit className="" />
-                </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
-                  <FaTrash className="" />
-                </button>
-              </div>
-            </td>
-          </tr>
-
-          {/* Dòng 3 */}
-          <tr className="border-b border-gray-200 hover:bg-gray-50">
-            <td className="p-3">3</td>
-            <td className="p-3">
-              <img src="/JennieSpotify.jpg" alt="Cover" className="w-12 h-12" />
-            </td>
-            <td className="p-3">Song Three</td>
-            <td className="p-3">2023-03-10</td>
-            <td className="p-3">Energetic and fast-paced</td>
-            <td className="p-3">
-              <div className="flex item-center gap-3 space-x-2">
-                <button
-                  onClick={openAddEditModal}
-                  className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
-                >
-                  <FaEdit className="" />
-                </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
-                  <FaTrash className="" />
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="flex justify-between mb-4">
+        <h1 className="text-3xl font-bold mb-4">Artist Songs</h1>
+        <button
+          onClick={openAddEditModal}
+          className="px-3 py-2 rounded-md bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 shadow-lg hover:shadow-xl"
+        >
+          <span className="text-xl">Add new +</span>
+        </button>
+      </div>
+      {/* Search bar */}
+      <div className="flex flex-col md:flex-row md:items-center md:space-x-4 md-6">
+        <div className="flex flex-col mb-4 mr-16">
+          <span class="text-xl mb-2">Tìm kiếm</span>
+          <input
+            id="searchName"
+            type="text"
+            placeholder="Tìm kiếm theo tên bài hát, album"
+            className="text-xl w-[500px] p-2 border border-gray-300 rounded-md mb-4"
+          />
+        </div>
+        <div className="flex flex-col mb-4 mr-16 ">
+          <span class="text-xl mb-2">Ngày bắt đầu</span>
+          <input
+            id="searchDateStart"
+            type="date"
+            className="text-xl w-full p-2 border border-gray-300 rounded-md mb-4"
+          />
+        </div>
+        <div className="flex flex-col mb-4 mr-16">
+          <span class="text-xl mb-2">Ngày kết thúc</span>
+          <input
+            id="searchDateEnd"
+            type="date"
+            className="text-xl w-full p-2 border border-gray-300 rounded-md mb-4"
+          />
+        </div>
+        <div className="flex flex-col mb-4 mr-16">
+          <span className="text-xl mb-2">Trạng thái</span>
+          <select
+            id="statusFilter"
+            className="text-xl p-2 border border-gray-300 rounded-md mb-4"
+          >
+            <option value="all">Tất cả trạng thái</option>
+            <option value="hd">Hoạt động</option>
+            <option value="an">Ẩn</option>
+          </select>
+        </div>
+        <button className="px-3 py-2 rounded-md bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 shadow-lg hover:shadow-xl">
+          <span className="text-xl">Tìm kiếm</span>
+        </button>
+      </div>
+      <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full text-sm">
+          <thead class="bg-gray-100 text-gray-600 uppercase text-left">
+            <tr>
+              <th class="px-4 py-6">Mã</th>
+              <th class="px-4 py-6">Tên</th>
+              <th class="px-4 py-6">Ngày phát hành</th>
+              <th class="px-4 py-6">Album</th>
+              <th class="px-4 py-6">Trạng thái</th>
+              <th class="px-4 py-6">Hành động</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-700">
+            <tr class="border-t">
+              <td class="px-4 py-3">#2632</td>
+              <td class="flex items-center px-4 py-3">
+                <img
+                  src="/ChiPu.jpg"
+                  alt="Album Cover"
+                  class="w-12 h-12 rounded object-cover"
+                />
+                <span class="px-4">Album 1</span>
+              </td>
+              <td class="px-4 py-3">12-2-2023</td>
+              <td class="px-4 py-3">Album 1</td>
+              <td class="px-4 py-3">
+                <span className="px-2 py-1 rounded-md bg-green-200 text-green-800">
+                  Active
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <button className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300">
+                    <FaEdit onClick={openAddEditModal} className="text-lg" />
+                  </button>
+                  <button
+                    onClick={openDeleteModal}
+                    className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300"
+                  >
+                    <FaTrash className="text-lg" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-4 py-3">#2632</td>
+              <td class="flex items-center px-4 py-3">
+                <img
+                  src="/ChiPu.jpg"
+                  alt="Album Cover"
+                  class="w-12 h-12 rounded object-cover"
+                />
+                <span class="px-4">Song 1</span>
+              </td>
+              <td class="px-4 py-3">12-2-2023</td>
+              <td class="px-4 py-3">Album 1</td>
+              <td class="px-4 py-3">
+                <span className="px-2 py-1 rounded-md bg-red-200 text-red-600">
+                  Inactive
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <button className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300">
+                    <FaEdit onClick={openAddEditModal} className="text-lg" />
+                  </button>
+                  <button
+                    onClick={openDeleteModal}
+                    className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300"
+                  >
+                    <FaTrash className="text-lg" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-t">
+              <td class="px-4 py-3">#2632</td>
+              <td class="flex items-center px-4 py-3">
+                <img
+                  src="/ChiPu.jpg"
+                  alt="Album Cover"
+                  class="w-12 h-12 rounded object-cover"
+                />
+                <span class="px-4">Song 1</span>
+              </td>
+              <td class="px-4 py-3">12-2-2023</td>
+              <td class="px-4 py-3">Album 1</td>
+              <td class="px-4 py-3">
+                <span className="px-2 py-1 rounded-md bg-red-200 text-red-600">
+                  Inactive
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <button className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300">
+                    <FaEdit onClick={openAddEditModal} className="text-lg" />
+                  </button>
+                  <button
+                    onClick={openDeleteModal}
+                    className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300"
+                  >
+                    <FaTrash className="text-lg" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       {/* Nút thêm bài hát */}
       <button
@@ -321,7 +384,9 @@ const ArtistSongs = () => {
 
             {/* trạng thái */}
             <div className="flex mb-5">
-              <label className="block text-sm font-medium mt-1 mr-4">Trạng thái</label>
+              <label className="block text-sm font-medium mt-1 mr-4">
+                Trạng thái
+              </label>
               <div
                 className={`w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition-all ${
                   isOn ? "bg-green-500" : "bg-gray-400"

@@ -21,24 +21,56 @@ export default function ManageSongs() {
   return (
     <div className="p-5">
       {/* Tiêu đề và thanh tìm kiếm */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Quản lý Bài hát</h1>
-        <div className="flex items-center space-x-4">
-          <div className="relative">
+      <div className="flex flex-col justify-between mb-2">
+        <h1 className="text-2xl font-bold mb-6">Quản lý Album</h1>
+        {/* Search bar */}
+        <div className="flex flex-col md:flex-row md:items-center md:space-x-4 md-6">
+          <div className="flex flex-col mb-4 mr-16">
+            <span class="text-xl mb-2">Tìm kiếm</span>
             <input
+              id="searchName"
               type="text"
-              placeholder="Tìm kiếm bài hát..."
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Nhập tên album"
+              className="text-xl w-[500px] p-2 border border-gray-300 rounded-md mb-4"
             />
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
+          <div className="flex flex-col mb-4 mr-16 ">
+            <span class="text-xl mb-2">Ngày bắt đầu</span>
+            <input
+              id="searchDateStart"
+              type="date"
+              className="text-xl w-full p-2 border border-gray-300 rounded-md mb-4"
+            />
+          </div>
+          <div className="flex flex-col mb-4 mr-16">
+            <span class="text-xl mb-2">Ngày kết thúc</span>
+            <input
+              id="searchDateEnd"
+              type="date"
+              className="text-xl w-full p-2 border border-gray-300 rounded-md mb-4"
+            />
+          </div>
+          <div className="flex flex-col mb-4 mr-16">
+            <span className="text-xl mb-2">Trạng thái</span>
+            <select
+              id="statusFilter"
+              className="text-xl p-2 border border-gray-300 rounded-md mb-4"
+            >
+              <option value="all">Tất cả trạng thái</option>
+              <option value="hd">Hoạt động</option>
+              <option value="an">Ẩn</option>
+            </select>
+          </div>
+          <button className="px-3 py-2 rounded-md bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 shadow-lg hover:shadow-xl">
+            <span className="text-xl">Tìm kiếm</span>
+          </button>
         </div>
       </div>
 
       {/* Bảng danh sách bài hát */}
       <table className="w-full border-collapse">
         <thead>
-          <tr className="bg-gray-100">
+          <tr className="bg-gray-100 uppercase">
             <th className="p-3 text-left">#</th>
             <th className="p-3 text-left">Ảnh bìa</th>
             <th className="p-3 text-left">Nghệ sĩ</th>
@@ -59,15 +91,15 @@ export default function ManageSongs() {
             <td className="p-3">Song One</td>
             <td className="p-3">Album One</td>
             <td className="p-3">2023-01-01</td>
-            <td className="p-3">
+            <td class="p-3">
               <div className="flex items-center gap-3">
                 <button
                   onClick={openEditModal}
-                  className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
+                  className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300"
                 >
                   <FaEdit className="text-lg" />
                 </button>
-                <button className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
+                <button className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300">
                   <FaTrash className="text-lg" />
                 </button>
               </div>
@@ -84,15 +116,15 @@ export default function ManageSongs() {
             <td className="p-3">Song Two</td>
             <td className="p-3">Album Two</td>
             <td className="p-3">2023-02-15</td>
-            <td className="p-3">
+            <td class="p-3">
               <div className="flex items-center gap-3">
                 <button
                   onClick={openEditModal}
-                  className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
+                  className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300"
                 >
                   <FaEdit className="text-lg" />
                 </button>
-                <button className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
+                <button className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300">
                   <FaTrash className="text-lg" />
                 </button>
               </div>
@@ -109,15 +141,15 @@ export default function ManageSongs() {
             <td className="p-3">Song Three</td>
             <td className="p-3">Album Three</td>
             <td className="p-3">2023-03-10</td>
-            <td className="p-3">
+            <td class="p-3">
               <div className="flex items-center gap-3">
                 <button
                   onClick={openEditModal}
-                  className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
+                  className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300"
                 >
                   <FaEdit className="text-lg" />
                 </button>
-                <button className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
+                <button className="w-10 h-10 rounded-full text-gray flex items-center justify-center hover:bg-gray-300">
                   <FaTrash className="text-lg" />
                 </button>
               </div>
