@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views.account_view import AccountLoginView,AccountRegisterView
+from .views.song_view import SongListAPIView
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
@@ -12,5 +13,6 @@ urlpatterns = [
     path('login/', AccountLoginView.as_view(), name='account-login'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', AccountRegisterView.as_view(), name='account-register'),
+    path('songs/', SongListAPIView.as_view(), name='song-list'),
 ]
 
