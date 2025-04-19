@@ -42,10 +42,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'Spotify',
 ]
+
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    
 }
 
 
@@ -114,6 +113,16 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'spotifyclone2000@gmail.com'
+EMAIL_HOST_PASSWORD = 'yuav yfib xbhz jfse'  # Không phải mật khẩu Gmail thông thường
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # Internationalization

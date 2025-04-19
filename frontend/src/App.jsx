@@ -1,8 +1,13 @@
 import { RouterProvider } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google"; // <--- thêm cái này
 import router from "./routes";
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+      <RouterProvider router={router} />
+    </GoogleOAuthProvider>
+  );
 };
 
 export default App;

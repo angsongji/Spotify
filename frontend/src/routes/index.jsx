@@ -18,6 +18,7 @@ import Song from "../pages/user/Song";
 import Album from "../pages/user/Album";
 import ManageCategorys from "../pages/admin/ManageCategorys";
 import PrivateRoute from "./PrivateRoutes";
+import EmailVerified from "../pages/EmailVerified";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <SignUp />,
+  },
+  {
+    path: "/email-verified",
+    element: <EmailVerified />,
   },
   {
     path: "/admin", //Phần quản lí của quyền quản trị
