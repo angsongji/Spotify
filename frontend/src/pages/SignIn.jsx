@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -15,7 +15,9 @@ const SignIn = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: username, password }),
+
+      body: JSON.stringify({ email, password }),
+
     });
 
     const data = await response.json();
@@ -23,12 +25,21 @@ const SignIn = () => {
     if (response.ok) {
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
-      alert(
-        `Đăng nhập thành công!\nID: ${data.id}\nUsername: ${data.username}`
-      );
+
+      alert(`Đăng nhập thành công!\nID: ${data.id}\n/Email: ${data.email}`);
       navigate("/");
     } else {
-      alert(data.error || "Đăng nhập thất bại!");
+      if (response.status === 403) {
+        alert(
+          data.error || "Tài khoản chưa xác thực. Vui lòng kiểm tra email."
+        );
+      } else if (response.status === 400) {
+        alert(data.error || "Thông tin không hợp lệ.");
+      } else if (response.status === 404) {
+        alert(data.error || "Không tìm thấy tài khoản.");
+      } else {
+        alert("Đã có lỗi xảy ra. Vui lòng thử lại.");
+      }
     }
   };
 
@@ -71,16 +82,16 @@ const SignIn = () => {
           <div className="mb-2">
             <label
               className="block text-white text-sm font-bold mb-2"
-              htmlFor="username"
+              htmlFor="email"
             >
               Tên người dùng
             </label>
             <input
-              id="username"
+              id="email"
               type="text"
               placeholder="Tên người dùng"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full text-white border-gray-400 border hover:border-white rounded-lg px-3 py-2 placeholder:text-gray-500"
               required
             />

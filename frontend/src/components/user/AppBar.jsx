@@ -7,6 +7,7 @@ const AppBar = ({ radios, albums, artists, podcasts }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const avatarRef = useRef(null);
   const navigate = useNavigate();
+
   const handleSearch = () => {
     const results = [];
 
@@ -76,6 +77,41 @@ const AppBar = ({ radios, albums, artists, podcasts }) => {
     };
   }, []);
 
+  const handleLogout = async () => {
+    const token = localStorage.getItem("access");
+
+    if (!token) {
+      console.error("Không có token, không thể đăng xuất!");
+      return;
+    }
+
+    console.log("Đang gửi token: ", token); // Thêm log để kiểm tra
+
+    try {
+      const response = await fetch("http://localhost:8000/api/logout/", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Lỗi khi gọi API logout:", errorData);
+        return;
+      }
+
+      console.log("Đăng xuất thành công!");
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      localStorage.removeItem("id");
+      navigate("/sign-in");
+    } catch (error) {
+      console.error("Lỗi khi gọi API logout:", error);
+    }
+  };
+
   return (
     <div>
       <div className="bg-black p-4 flex justify-between items-center text-white">
@@ -129,11 +165,9 @@ const AppBar = ({ radios, albums, artists, podcasts }) => {
                 >
                   Profile
                 </a>
+
                 <button
-                  onClick={() => {
-                    localStorage.removeItem("access"); // Xóa access token
-                    navigate("/sign-in"); // Chuyển hướng về trang đăng nhập
-                  }}
+                  onClick={handleLogout}
                   className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Log out

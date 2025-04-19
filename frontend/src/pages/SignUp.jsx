@@ -1,10 +1,21 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [verificationSent, setVerificationSent] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    /* Khởi tạo Google Identity khi load trang */
+    window.google?.accounts.id.initialize({
+      client_id: "YOUR_GOOGLE_CLIENT_ID", // 🔥 nhớ thay client id
+      callback: handleGoogleRegister,
+    });
+  }, []);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -23,6 +34,72 @@ const SignUp = () => {
       setVerificationSent(true); // hiển thị giao diện thông báo
     } else {
       alert(data.error || "Tạo tài khoản thất bại!");
+    }
+  };
+  if (verificationSent) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-neutral-800">
+        <div className="bg-neutral-950 p-10 rounded-lg shadow-md text-center">
+          <h2 className="text-2xl font-bold text-white mb-4">Xác nhận email</h2>
+          <p className="text-gray-300 max-w-md">
+            Chúng tôi đã gửi một email xác nhận đến{" "}
+            <span className="font-semibold text-white">{email}</span>. Vui lòng
+            kiểm tra hộp thư và nhấp vào liên kết xác nhận để kích hoạt tài
+            khoản.
+          </p>
+          <Link
+            to="/sign-in"
+            className="text-green-500 underline mt-6 block hover:text-green-400"
+          >
+            Quay lại trang đăng nhập
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const handleGoogleButtonClick = () => {
+    window.google?.accounts.id.prompt();
+  };
+
+  const handleGoogleRegister = async (credentialResponse) => {
+    const { credential } = credentialResponse;
+    if (!credential) {
+      alert("Không lấy được thông tin từ Google!");
+      return;
+    }
+
+    const decoded = jwtDecode(credential);
+    console.log("Thông tin tài khoản Google:", decoded);
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/register-google/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: decoded.email,
+            name: decoded.name,
+            google_id: decoded.sub,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setVerificationSent(true);
+        // Hoặc chuyển sang trang login
+        // navigate('/sign-in');
+      } else {
+        alert(data.error || "Đăng ký bằng Google thất bại!");
+      }
+    } catch (error) {
+      console.error("Lỗi đăng ký bằng Google:", error);
+      alert("Có lỗi xảy ra khi đăng ký bằng Google.");
     }
   };
 
@@ -101,7 +178,10 @@ const SignUp = () => {
         </div>
 
         <div className="flex flex-col justify-center items-center">
-          <button className="rounded-full flex items-center w-80 border text-center border-gray-400 font-bold cursor-pointer hover:border-white text-white px-3 py-2 mb-2">
+          <button
+            className="rounded-full flex items-center w-80 border text-center border-gray-400 font-bold cursor-pointer hover:border-white text-white px-3 py-2 mb-2"
+            onClick={handleGoogleButtonClick}
+          >
             <img
               className="w-7 h-7 ml-4"
               src="../../public/logo-google.png"
@@ -109,6 +189,7 @@ const SignUp = () => {
             />
             <span className="px-7 w-60 text-white">Đăng ký bằng Google</span>
           </button>
+
           <button className="rounded-full flex items-center w-80 border text-center border-gray-400 font-bold cursor-pointer hover:border-white text-white px-3 py-2 mb-8">
             <img
               className="w-7 h-7 ml-4"
