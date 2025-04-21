@@ -3,6 +3,8 @@ from rest_framework.routers import DefaultRouter
 from .views.account_view import AccountLoginView,AccountRegisterView,VerifyEmailView,AccountLogoutView
 
 from .views.song_view import SongListAPIView
+from .views.artist_view import ArtistListAPIView
+from .views.album_view import AlbumListAPIView
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
@@ -17,6 +19,8 @@ urlpatterns = [
     path("verify-email/<str:token>/", VerifyEmailView.as_view(), name="verify-email"),
     path('logout/', AccountLogoutView.as_view(), name='account-logout'),
     path('songs/', SongListAPIView.as_view(), name='song-list'),
+    path('artists/', ArtistListAPIView.as_view(), name='artist-list'),
+    path('albums/', AlbumListAPIView.as_view(), name='album-list'),
 
 ]
 
