@@ -5,8 +5,9 @@ import "../../index.css";
 
 const FilterButtons = ({ activeFilter, onFilterChange }) => {
   const filters = ["All", "Album", "Song", "Podcast"];
+
   return (
-    <div className="flex items-center mb-4 gap-2 space-x-3 text-sm">
+    <div className="flex items-center mb-4 gap-2 text-sm">
       {filters.map((filter) => (
         <button
           key={filter}
@@ -51,6 +52,36 @@ const AlbumCard = ({ album }) => {
   );
 };
 
+const SongCard = ({ song }) => {
+  const navigate = useNavigate();
+  return (
+    <div
+      onClick={() => navigate(`/song/${song.id}`)}
+      className="w-full h-auto object-cover rounded-lg transition-transform transform hover:scale-105 duration-300 cursor-pointer"
+    >
+      <img
+        src={song.cover_image}
+        alt={song.name}
+        className="w-full h-44 object-cover rounded-lg mb-3"
+      />
+      <h3 className="text-white font-semibold mt-3">{song.name}</h3>
+      <p className="text-gray-400 text-sm">{song.artist_id_id}</p>
+    </div>
+  );
+};
+
+const PodcastCard = ({ podcast }) => (
+  <div className="w-full h-auto object-cover rounded-lg transition-transform transform hover:scale-105 duration-300 cursor-pointer">
+    <img
+      src={podcast.image}
+      alt={podcast.name}
+      className="w-full h-44 object-cover rounded-lg mb-3"
+    />
+    <h3 className="text-white font-semibold mt-3">{podcast.name}</h3>
+    <p className="text-gray-400 text-sm">{podcast.description}</p>
+  </div>
+);
+
 const ArtistCard = ({ artist }) => {
   const navigate = useNavigate();
   return (
@@ -71,18 +102,6 @@ const ArtistCard = ({ artist }) => {
   );
 };
 
-const PodcastCard = ({ podcast }) => (
-  <div className="w-full h-auto object-cover rounded-lg transition-transform transform hover:scale-105 duration-300 cursor-pointer">
-    <img
-      src={podcast.image}
-      alt={podcast.name}
-      className="w-full h-44 object-cover rounded-lg mb-3"
-    />
-    <h3 className="text-white font-semibold mt-3">{podcast.name}</h3>
-    <p className="text-gray-400 text-sm">{podcast.description}</p>
-  </div>
-);
-
 const Home = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [albums, setAlbums] = useState([]);
@@ -99,20 +118,16 @@ const Home = () => {
           axios.get("http://localhost:8000/api/songs/"),
         ]);
 
-        console.log("Albums:", albumsRes.data);
-        console.log("Artists:", artistsRes.data);
-        console.log("Songs:", songsRes.data);
-
-        // Nếu data trả về không phải mảng thì ép thành mảng
         setAlbums(Array.isArray(albumsRes.data) ? albumsRes.data : []);
         setArtists(Array.isArray(artistsRes.data) ? artistsRes.data : []);
         setSongs(Array.isArray(songsRes.data) ? songsRes.data : []);
+        setPodcasts([]); // Nếu có API podcast thì fetch luôn, còn không thì để []
       } catch (error) {
         console.error("Error fetching data:", error);
-        // Nếu lỗi API vẫn set empty array để tránh crash
         setAlbums([]);
         setArtists([]);
         setSongs([]);
+        setPodcasts([]);
       }
     };
     fetchData();
@@ -124,19 +139,16 @@ const Home = () => {
 
   const filteredAlbums =
     activeFilter === "All" || activeFilter === "Album" ? albums : [];
+  const filteredSongs =
+    activeFilter === "All" || activeFilter === "Song" ? songs : [];
   const filteredPodcasts =
     activeFilter === "All" || activeFilter === "Podcast" ? podcasts : [];
-  const filteredSongs =
-    activeFilter === "All" || activeFilter === "Songs" ? songs : [];
 
   return (
     <div className="bg-[var(--dark-gray)] p-6 min-h-screen flex flex-col gap-5">
-      <FilterButtons
-        activeFilter={activeFilter}
-        onFilterChange={handleFilterChange}
-      />
+      <FilterButtons activeFilter={activeFilter} onFilterChange={handleFilterChange} />
 
-      {Array.isArray(filteredAlbums) && filteredAlbums.length > 0 && (
+      {filteredAlbums.length > 0 && (
         <>
           <SectionTitle title="Popular Albums" />
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
@@ -147,10 +159,21 @@ const Home = () => {
         </>
       )}
 
-      {Array.isArray(filteredPodcasts) && filteredPodcasts.length > 0 && (
+      {filteredSongs.length > 0 && (
+        <>
+          <SectionTitle title="Popular Songs" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+            {filteredSongs.map((song) => (
+              <SongCard key={song.id} song={song} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {filteredPodcasts.length > 0 && (
         <>
           <SectionTitle title="Popular Podcasts" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
             {filteredPodcasts.map((podcast, index) => (
               <PodcastCard key={index} podcast={podcast} />
             ))}
@@ -158,29 +181,16 @@ const Home = () => {
         </>
       )}
 
-      {Array.isArray(filteredSongs) && filteredSongs.length > 0 && (
+      {activeFilter === "All" && artists.length > 0 && (
         <>
-          <SectionTitle title="Popular Music" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {filteredSongs.map((song, index) => (
-              <PodcastCard key={index} podcast={podcast} />
+          <SectionTitle title="Popular Artists" />
+          <div className="flex overflow-x-auto space-x-10 scrollbar-hide">
+            {artists.map((artist) => (
+              <ArtistCard key={artist.id} artist={artist} />
             ))}
           </div>
         </>
       )}
-
-      {activeFilter === "All" &&
-        Array.isArray(artists) &&
-        artists.length > 0 && (
-          <>
-            <SectionTitle title="Popular Artists" />
-            <div className="flex overflow-x-auto space-x-10 scrollbar-hide">
-              {artists.map((artist) => (
-                <ArtistCard key={artist.id} artist={artist} />
-              ))}
-            </div>
-          </>
-        )}
     </div>
   );
 };
