@@ -31,8 +31,8 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <Home /> },
       { path: "artist/:artistId", element: <Artist /> },
-      { path: "song/:songId", element: <Song /> },
-      { path: "album/:albumId", element: <Album /> },
+      { path: "song/:id", element: <Song /> },
+      { path: "album/:id", element: <Album /> },
       { path: "playlist/:playlistId", element: <Playlist /> },
     ],
   },
