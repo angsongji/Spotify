@@ -9,3 +9,13 @@ class VideoListAPIView(APIView):
         videos = Video.objects.all()
         serializer = VideoSerializer(videos, many=True)
         return Response(serializer.data)
+     
+class VideoDetailAPIView(APIView):
+    def get(self, request, pk):
+        try:
+            video = Video.objects.get(pk=pk)
+            serializer = VideoSerializer(video)
+            return Response(serializer.data)
+        except Video.DoesNotExist:
+            return Response({'error': 'Video not found'}, status=status.HTTP_404_NOT_FOUND)
+     

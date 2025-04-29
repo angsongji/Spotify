@@ -17,14 +17,13 @@ const AudioBar = ({ currentSong, currentIndex, songs, setCurrentIndex }) => {
 
   const audioRef = useRef(null);
 
-  const API_BASE_URL = "http://localhost:8000";
+  const cover = currentSong?.cover_image_url
+  ? currentSong.cover_image_url
+  : "/default-cover.jpg";
 
-  const cover = currentSong?.cover_image
-    ? `${API_BASE_URL}${currentSong.cover_image}`
-    : "/default-cover.jpg";
 
   useEffect(() => {
-    if (audioRef.current && currentSong?.audio_file) {
+    if (audioRef.current && currentSong?.audio_file_url) {
       const playAudio = async () => {
         try {
           audioRef.current.load();
@@ -37,7 +36,7 @@ const AudioBar = ({ currentSong, currentIndex, songs, setCurrentIndex }) => {
       };
       playAudio();
     }
-  }, [currentSong?.audio_file]);
+  }, [currentSong?.audio_file_url]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -124,16 +123,13 @@ const AudioBar = ({ currentSong, currentIndex, songs, setCurrentIndex }) => {
 
   return (
     <>
-      {currentSong?.audio_file && (
+      {currentSong?.audio_file_url && (
         <audio
           ref={audioRef}
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded}
         >
-          <source
-            src={`${API_BASE_URL}${currentSong.audio_file}`}
-            type="audio/mpeg"
-          />
+          <source src={currentSong.audio_file_url} type="audio/mpeg" />
         </audio>
       )}
 

@@ -5,7 +5,7 @@ from .views.account_view import AccountLoginView,AccountRegisterView,VerifyEmail
 from .views.song_view import SongListAPIView,SongDetailAPIView
 from .views.artist_view import ArtistListAPIView
 from .views.album_view import AlbumListAPIView, AlbumDetailAPIView,SongByAlbumAPIView
-from .views.video_view import VideoListAPIView
+from .views.video_view import VideoListAPIView, VideoDetailAPIView
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
@@ -25,7 +25,7 @@ urlpatterns = [
     path('albums/<int:id>/', AlbumDetailAPIView.as_view(), name='album-detail'),
     path('songs-by-album/<int:album_id>/', SongByAlbumAPIView.as_view(), name='songs-by-album'),
     path('song/<int:id>/', SongDetailAPIView.as_view(), name='song-detail'),
-    path('videos/', VideoListAPIView.as_view(), name= 'video-list'),
-
+    path('videos/', VideoListAPIView.as_view(), name='video-list'),
+    path('videos/<int:pk>/', VideoDetailAPIView.as_view(), name='video-detail'),
 ]
 
