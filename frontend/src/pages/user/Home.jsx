@@ -158,49 +158,50 @@ const Home = () => {
         onFilterChange={handleFilterChange}
       />
 
-      {filteredAlbums.length > 0 && (
-        <>
-          <SectionTitle title="Popular Albums" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
-            {filteredAlbums.map((album) => (
-              <AlbumCard key={album.id} album={album} />
-            ))}
-          </div>
-        </>
-      )}
+{(activeFilter === "All" || activeFilter === "Album") && filteredAlbums.length > 0 && (
+  <>
+    <SectionTitle title="Popular Albums" />
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+      {filteredAlbums.map((album) => (
+        <AlbumCard key={album.id} album={album} />
+      ))}
+    </div>
+  </>
+)}
 
-      {filteredSongs.length > 0 && (
-        <>
-          <SectionTitle title="Popular Songs" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
-            {filteredSongs.map((song) => (
-              <SongCard key={song.id} song={song} />
-            ))}
-          </div>
-        </>
-      )}
+{(activeFilter === "All" || activeFilter === "Song") && filteredSongs.length > 0 && (
+  <>
+    <SectionTitle title="Popular Songs" />
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+      {filteredSongs.map((song) => (
+        <SongCard key={song.id} song={song} />
+      ))}
+    </div>
+  </>
+)}
 
-      {filteredVideos.length > 0 && (
-        <>
-          <SectionTitle title="Popular Videos" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
-            {filteredVideos.map((video) => (
-              <VideoCard key={video.id} video={video} />
-            ))}
-          </div>
-        </>
-      )}
+{(activeFilter === "All" || activeFilter === "Video") && filteredVideos.length > 0 && (
+  <>
+    <SectionTitle title="Popular Videos" />
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+      {filteredVideos.map((video) => (
+        <VideoCard key={video.id} video={video} />
+      ))}
+    </div>
+  </>
+)}
 
-      {activeFilter === "All" && artists.length > 0 && (
-        <>
-          <SectionTitle title="Popular Artists" />
-          <div className="flex overflow-x-auto space-x-10 scrollbar-hide">
-            {artists.map((artist) => (
-              <ArtistCard key={artist.id} artist={artist} />
-            ))}
-          </div>
-        </>
-      )}
+{activeFilter === "All" && artists.length > 0 && (
+  <>
+    <SectionTitle title="Popular Artists" />
+    <div className="flex overflow-x-auto space-x-10 scrollbar-hide">
+      {artists.map((artist) => (
+        <ArtistCard key={artist.id} artist={artist} />
+      ))}
+    </div>
+  </>
+)}
+
     </div>
   );
 };

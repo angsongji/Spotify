@@ -16,13 +16,14 @@ import ArtistAlbums from "../pages/artist/ArtistAlbums";
 import Artist from "../pages/user/Artist";
 import Song from "../pages/user/Song";
 import Album from "../pages/user/Album";
+import VideoDetail from "../pages/user/VideoDetail"; // <- THÊM
 import ManageCategorys from "../pages/admin/ManageCategorys";
 import PrivateRoute from "./PrivateRoutes";
 import EmailVerified from "../pages/EmailVerified";
 
 const router = createBrowserRouter([
   {
-    path: "/", //Phần chung user và artist
+    path: "/",
     element: (
       <PrivateRoute>
         <UserLayout />
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       { path: "song/:id", element: <Song /> },
       { path: "album/:id", element: <Album /> },
       { path: "playlist/:playlistId", element: <Playlist /> },
+      { path: "video/:id", element: <VideoDetail /> }, // <- THÊM
     ],
   },
   {
@@ -49,8 +51,12 @@ const router = createBrowserRouter([
     element: <EmailVerified />,
   },
   {
-    path: "/admin", //Phần quản lí của quyền quản trị
-    element: <AdminLayout />,
+    path: "/admin",
+    element: (
+      <PrivateRoute>
+        <AdminLayout />
+      </PrivateRoute>
+    ),
     children: [
       { path: "", element: <ManageUsers /> },
       { path: "songs", element: <ManageSongs /> },
@@ -60,15 +66,21 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/    ", //Phần quản lí của nghệ sĩ: để nghệ sĩ quản lí bafihast, album của nghệ sĩ đó
-    element: <ArtistLayout />, // Layout chung
+    path: "/artist-manage", // <-- Sửa lại đúng
+    element: (
+      <PrivateRoute>
+        <ArtistLayout />
+      </PrivateRoute>
+    ),
     children: [
       { path: "", element: <ArtistSongs /> },
       { path: "albums", element: <ArtistAlbums /> },
     ],
   },
-
-  { path: "*", element: <NotFound /> },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
 export default router;
