@@ -1,11 +1,14 @@
 import { RouterProvider } from "react-router-dom";
+import { SearchProvider } from "./context/searchContext";
 import { GoogleOAuthProvider } from "@react-oauth/google"; // <--- thêm cái này
 import router from "./routes";
 
 const App = () => {
   return (
     <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+      <SearchProvider>
       <RouterProvider router={router} />
+      </SearchProvider>
     </GoogleOAuthProvider>
   );
 };

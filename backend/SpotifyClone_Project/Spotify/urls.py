@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views.account_view import AccountLoginView,AccountRegisterView,VerifyEmailView,AccountLogoutView
-
+from .views.search_view import Search
 from .views.song_view import SongListAPIView,SongDetailAPIView
 from .views.artist_view import ArtistListAPIView
 from .views.album_view import AlbumListAPIView, AlbumDetailAPIView,SongByAlbumAPIView
@@ -27,5 +27,6 @@ urlpatterns = [
     path('song/<int:id>/', SongDetailAPIView.as_view(), name='song-detail'),
     path('videos/', VideoListAPIView.as_view(), name='video-list'),
     path('videos/<int:pk>/', VideoDetailAPIView.as_view(), name='video-detail'),
+    path('search/', Search, name='search' ),
 ]
 

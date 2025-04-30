@@ -51,6 +51,11 @@ const router = createBrowserRouter([
     element: <EmailVerified />,
   },
   {
+    path: "/search",
+    element: <Home />
+  },
+
+  {
     path: "/admin",
     element: (
       <PrivateRoute>
@@ -66,7 +71,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/artist-manage", // <-- Sửa lại đúng
+    path: "/artist-manage", 
     element: (
       <PrivateRoute>
         <ArtistLayout />
