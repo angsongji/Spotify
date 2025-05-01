@@ -20,6 +20,7 @@ import VideoDetail from "../pages/user/VideoDetail"; // <- THÊM
 import ManageCategorys from "../pages/admin/ManageCategorys";
 import PrivateRoute from "./PrivateRoutes";
 import EmailVerified from "../pages/EmailVerified";
+import PlaylistPage from "../pages/user/Playlist";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
       { path: "artist/:artistId", element: <Artist /> },
       { path: "song/:id", element: <Song /> },
       { path: "album/:id", element: <Album /> },
-      { path: "playlist/:playlistId", element: <Playlist /> },
+      { path: "playlist/:playlistId", element: <PlaylistPage /> },
       { path: "video/:id", element: <VideoDetail /> }, // <- THÊM
     ],
   },
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
     path: "/search",
     element: <Home />
   },
-
+  
   {
     path: "/admin",
     element: (

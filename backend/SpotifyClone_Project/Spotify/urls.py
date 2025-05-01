@@ -6,6 +6,9 @@ from .views.song_view import SongListAPIView,SongDetailAPIView
 from .views.artist_view import ArtistListAPIView
 from .views.album_view import AlbumListAPIView, AlbumDetailAPIView,SongByAlbumAPIView
 from .views.video_view import VideoListAPIView, VideoDetailAPIView
+from .views.playlist_view import get_playlists_by_account, PlaylistDetailAPIView, SongByPlaylistAPIView,PlaylistSongCreateView
+
+
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
@@ -28,5 +31,9 @@ urlpatterns = [
     path('videos/', VideoListAPIView.as_view(), name='video-list'),
     path('videos/<int:pk>/', VideoDetailAPIView.as_view(), name='video-detail'),
     path('search/', Search, name='search' ),
+    path('playlists/<int:account_id>/', get_playlists_by_account),
+    path('playlist/<int:id>/', PlaylistDetailAPIView.as_view(), name='playlist_detail'),
+    path('playlist/<int:playlist_id>/songs/', SongByPlaylistAPIView.as_view(), name='songs_by_playlist'),
+    path('playlist_song/', PlaylistSongCreateView.as_view(), name='add-to-playlist'),
 ]
 
