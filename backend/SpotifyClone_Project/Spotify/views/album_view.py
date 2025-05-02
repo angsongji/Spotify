@@ -14,6 +14,12 @@ class AlbumListAPIView(APIView):
         serializer = AlbumSerializer(albums, many=True)
         return Response(serializer.data)
 
+class AllAlbumAPIView(APIView):
+    def get(self, request):
+        albums = Album.objects.all()
+        serializer = AlbumSerializer(albums, many=True)
+        return Response(serializer.data)
+    
 class AlbumDetailAPIView(APIView):
     def get(self, request, id):
         try:
