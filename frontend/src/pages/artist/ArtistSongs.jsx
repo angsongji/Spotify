@@ -13,7 +13,6 @@
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [videoFile, setVideoFile] = useState(null);
-    const [isEditMode, setIsEditMode] = useState(false);
 
 
     // Fetch songs by artist
@@ -134,39 +133,6 @@
       }
     };
     
-    // const handleImageUploadToS3 = async (file) => {
-    //   // Upload image lên cloud (ví dụ Cloudinary hoặc S3)
-    //   const { url, key } = await uploadToS3(file, "image");
-    //   setSelectedSong((prev) => ({
-    //     ...prev,
-    //     cover_image_url: url,
-    //     cover_image_key: key, // dùng để xóa nếu admin từ chối
-    //   }));
-    // };
-    
-    // const handleAudioUploadToS3 = async (file) => {
-    //   const { url, key } = await uploadToS3(file, "audio");
-    //   setSelectedSong((prev) => ({
-    //     ...prev,
-    //     audio_file_url: url,
-    //     audio_file_key: key,
-    //   }));
-    // };
-
-    // File change handling
-    // const handleFileChange = (event) => {
-    //   const file = event.target.files[0];
-    //   if (!file) return;
-
-    //   if (file.type.startsWith("image/")) {
-    //     setImageFile(file);
-    //   } else if (file.type.startsWith("video/")) {
-    //     setVideoFile(file);
-    //   } else {
-    //     alert("Chỉ được chọn ảnh hoặc video!");
-    //   }
-    // };
-
     // Toggle song status
     const toggleStatus = () => {
       if (!selectedSong) return;

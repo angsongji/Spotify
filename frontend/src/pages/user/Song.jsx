@@ -30,7 +30,7 @@ const Song = () => {
   useEffect(() => {
     const fetchSong = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/song/${id}/`);
+        const response = await fetch(`http://localhost:8000/api/songs/${id}/`);
         const data = await response.json();
         setSong(data);
       } catch (error) {

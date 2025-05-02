@@ -19,6 +19,12 @@ class SongListAPIView(APIView):
         serializer = SongSerializer(songs, many=True)
         return Response(serializer.data)
 
+class SongAllInListAPIView(APIView):
+    def get(self, request):
+        # Lọc bài hát đã được kiểm duyệt
+        songs = Song.objects.all()
+        serializer = SongSerializer(songs, many=True)
+        return Response(serializer.data)
 
 class SongDetailAPIView(APIView):
     def get(self, request, id):
