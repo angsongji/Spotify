@@ -21,6 +21,8 @@ import ManageCategorys from "../pages/admin/ManageCategorys";
 import PrivateRoute from "./PrivateRoutes";
 import EmailVerified from "../pages/EmailVerified";
 
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -80,6 +82,10 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <NotFound />,
+  },
+  {
+    path: "/song/:id",
+    element: <Song />
   },
 ]);
 

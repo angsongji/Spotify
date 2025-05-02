@@ -7,6 +7,7 @@ import "../../index.css";
 
 const SideBar = ({ setCurrentSong }) => {
     const [songs, setSongs] = useState([]);
+    window.setCurrentSongFromOutside = setCurrentSong;
 
     useEffect(() => {
         const fetchSongs = async () => {

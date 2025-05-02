@@ -38,6 +38,7 @@ const UserLayout = () => {
 
       <div className="flex-1 flex px-2 gap-2">
         <div className="w-[22.22%] bg-[var(--dark-gray)] rounded-lg">
+        
         <SideBar setCurrentSong={setCurrentSong} />
         </div>
 
