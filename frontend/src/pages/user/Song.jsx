@@ -93,10 +93,32 @@ const Song = () => {
   
 
   const handleAddToQueue = () => {
-    // Chưa triển khai nhưng có thể gọi backend sau này
-    alert("Song added to the queue (not implemented yet).");
+    const currentQueue = JSON.parse(sessionStorage.getItem("musicQueue")) || [];
+  
+    const isAlreadyInQueue = currentQueue.some((item) => item.id === song.id);
+    if (isAlreadyInQueue) {
+      alert("Bài hát đã có trong hàng đợi.");
+      return;
+    }
+  
+    const songData = {
+      id: song.id,
+      title: song.name,
+      artist: song.artist_name,
+      image: song.cover_image_url,
+    };
+  
+    const updatedQueue = [...currentQueue, songData];
+    sessionStorage.setItem("musicQueue", JSON.stringify(updatedQueue));
+  
+    const event = new CustomEvent("queueUpdated", { detail: updatedQueue });
+    window.dispatchEvent(event);
+  
+    alert("Đã thêm vào hàng đợi.");
     setIsPopupVisible(false);
   };
+  
+  
 
   const formatDuration = (durationInSeconds) => {
     const minutes = Math.floor(durationInSeconds / 60);

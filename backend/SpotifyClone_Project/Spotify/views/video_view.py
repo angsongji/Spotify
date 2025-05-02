@@ -5,8 +5,9 @@ from Spotify.serializers.video_serializer import VideoSerializer
 from rest_framework import status
 
 class VideoListAPIView(APIView):
-     def get(self, request):
-        videos = Video.objects.all()
+    def get(self, request):
+        # Chỉ lấy video đã được kiểm duyệt
+        videos = Video.objects.filter(is_approved=True)
         serializer = VideoSerializer(videos, many=True)
         return Response(serializer.data)
      
