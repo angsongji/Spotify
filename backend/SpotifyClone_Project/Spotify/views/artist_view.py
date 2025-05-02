@@ -22,6 +22,7 @@ def get_artist_songs(request, account_id):  # <- Thêm đối số này
     songs = Song.objects.filter(artist_id=artist.id)
 
     song_list = [{
+        'id': song.id,
         'name': song.name,
         'release_date': song.release_date,
         'cover_image_url': song.cover_image_url,

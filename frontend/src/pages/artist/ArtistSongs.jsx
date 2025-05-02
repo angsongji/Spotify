@@ -5,7 +5,7 @@
 
   const ArtistSongs = () => {
     const [musicGenres, setMusicGenres] = useState([]);
-    const { accountId } = useOutletContext(); // Nhận accountId từ context layout
+    const { accountId } = useOutletContext(); 
     const [albums, setAlbums] = useState([]);
     const [songs, setSongs] = useState([]);
     const [selectedSong, setSelectedSong] = useState(null);
@@ -13,6 +13,8 @@
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [videoFile, setVideoFile] = useState(null);
+    const [isEditMode, setIsEditMode] = useState(false);
+
 
     // Fetch songs by artist
     useEffect(() => {
@@ -56,6 +58,7 @@
     };
 
     const handleDeleteSong = () => {
+      console.log("ID bài hát: ", selectedSong.id)
       axios
         .delete(`http://localhost:8000/api/song/${selectedSong.id}/`)
         .then(() => {
@@ -72,6 +75,10 @@
       setImageFile(null);
       setVideoFile(null);
     };
+    
+    useEffect(() => {
+      console.log("Selected song:", selectedSong); // log khi selectedSong thay đổi
+    }, [selectedSong]);
 
     const closeAddEditModal = () => {
       setIsEditModalOpen(false);
@@ -264,7 +271,7 @@
               </div>
               <h2 className="text-xl font-semibold text-center mb-2">Confirm Deletion</h2>
               <p className="text-gray-700">
-                Are you sure you want to delete the song "{selectedSong?.title}"? This action cannot be undone.
+                Are you sure you want to delete the song "{selectedSong?.name}"? This action cannot be undone.
               </p>
               <div className="flex justify-center gap-5 mt-4">
                 <button

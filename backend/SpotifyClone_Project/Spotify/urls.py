@@ -42,5 +42,8 @@ urlpatterns = [
     path('s3/delete/', delete_s3_file, name='delete_s3_file'),
 
      path('song/', SongViewSet.as_view({'post': 'create'}), name='song-create'),
-    path('song/<int:pk>/', SongViewSet.as_view({'put': 'update'}), name='song-update'),
+    path('song/<int:pk>/', SongViewSet.as_view({
+            'put': 'update',
+            'delete': 'destroy'
+        }), name='song-detail'),
 ]
