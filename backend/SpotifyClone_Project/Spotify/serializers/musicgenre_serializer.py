@@ -4,4 +4,4 @@ from ..models.music_genres_models import MusicGenres
 class MusicGenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = MusicGenres
-        fields = ['id', 'name']
+        fields = ['id', 'name','description']

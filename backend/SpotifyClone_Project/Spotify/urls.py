@@ -8,7 +8,7 @@ from .views.album_view import AlbumListAPIView, AlbumDetailAPIView, SongByAlbumA
 from .views.video_view import VideoListAPIView, VideoDetailAPIView
 from .views.playlist_view import get_playlists_by_account, PlaylistDetailAPIView, SongByPlaylistAPIView, PlaylistSongCreateView
 from .views.user_view import get_user_by_account
-from .views.musicgenre_view import get_music_genres
+from .views.musicgenre_view import get_music_genres,add_music_genre,delete_music_genre
 from .views.presigned_view import get_presigned_url, delete_s3_file
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -39,6 +39,8 @@ urlpatterns = [
     path('user/by-account/<int:account_id>/', get_user_by_account),
     path('song/by-artist/<int:account_id>/', get_artist_songs),
     path('music-genres/', get_music_genres, name='get-music-genres'),
+    path('music-genres/add/', add_music_genre, name='add-music-genre'),
+    path('music-genres/delete/<int:pk>/', delete_music_genre, name='delete-music-genre'),
     path("albums/by-account/<int:account_id>/", AlbumByAccountAPIView.as_view(), name="albums-by-account"),
     path('s3/presign/', get_presigned_url, name='get_presigned_url'),
     path('s3/delete/', delete_s3_file, name='delete_s3_file'),
