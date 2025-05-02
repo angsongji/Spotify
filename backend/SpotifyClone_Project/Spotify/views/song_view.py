@@ -65,7 +65,7 @@ class SongViewSet(viewsets.ModelViewSet):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
         data = request.data.copy()
-
+        data['release_date'] = date.today()
         # Nếu có audio mới, tính lại duration
         audio_url = data.get('audio_file_url')
         if audio_url and audio_url != instance.audio_file_url:
@@ -106,3 +106,9 @@ class SongViewSet(viewsets.ModelViewSet):
                 if os.path.exists(tmp_path):
                     os.remove(tmp_path)
         return duration
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
