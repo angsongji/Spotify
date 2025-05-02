@@ -1,64 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { FaPlay, FaHeart } from "react-icons/fa";
-import { FastAverageColor } from "fast-average-color";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const fac = new FastAverageColor();
 function formatDuration(seconds) {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
 }
+
+const getRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
 const Album = () => {
-  const { id } = useParams(); // lấy id từ URL
-  console.log("id in params:", id);
-  const [album, setAlbum] = useState(null); // ban đầu là null
+  const { id } = useParams();
+  const [album, setAlbum] = useState(null);
   const [songs, setSongs] = useState([]);
-  const [colorMain, setColorMain] = useState("#ffffff");
-  const [backgroundStyle, setBackgroundStyle] = useState("");
-
-  const hexToRgb = (hex) => {
-    hex = hex.replace("#", "");
-    let r = parseInt(hex.substring(0, 2), 16);
-    let g = parseInt(hex.substring(2, 4), 16);
-    let b = parseInt(hex.substring(4, 6), 16);
-    return { r, g, b };
-  };
-
-  const generateLinearGradient = (
-    hex,
-    opacityStart = 1,
-    opacityEnd = 0.2,
-    angle = 50
-  ) => {
-    const { r, g, b } = hexToRgb(hex);
-    return `linear-gradient(${angle}deg, rgba(${r}, ${g}, ${b}, ${opacityStart}), rgba(${r}, ${g}, ${b}, ${opacityEnd}))`;
-  };
+  const [randomColor, setRandomColor] = useState("#22c55e"); // default green
 
   useEffect(() => {
     const fetchAlbumData = async () => {
       try {
-        const albumRes = await axios.get(
-          `http://localhost:8000/api/albums/${id}/`
-        );
-        const songsRes = await axios.get(
-          `http://localhost:8000/api/songs-by-album/${id}/`
-        );
-
-        console.log("Album received:", albumRes.data);
-        console.log("Songs received:", songsRes.data);
+        const albumRes = await axios.get(`http://localhost:8000/api/albums/${id}/`);
+        const songsRes = await axios.get(`http://localhost:8000/api/songs-by-album/${id}/`);
 
         setAlbum(albumRes.data);
         setSongs(songsRes.data);
 
-        if (albumRes.data.cover_image) {
-          fac.getColorAsync(albumRes.data.cover_image).then((color) => {
-            setColorMain(color.hex);
-            let bg = generateLinearGradient(color.hex, 0.7, 0.4, 180);
-            setBackgroundStyle(bg);
-          });
-        }
+        const generatedColor = getRandomColor();
+        setRandomColor(generatedColor);
       } catch (error) {
         console.error("Error fetching album or songs:", error);
       }
@@ -77,7 +53,9 @@ const Album = () => {
     <div className="pb-10 bg-[#121212]">
       <div
         className="text-white flex gap-8 flex-col md:flex-row md:items-center p-5"
-        style={{ background: backgroundStyle }}
+        style={{
+          background: `linear-gradient(180deg, ${randomColor} 0%, rgba(18,18,18,0.6) 100%)`,
+        }}
       >
         <img
           className="w-48 h-48 rounded"
@@ -104,7 +82,7 @@ const Album = () => {
 
       <div
         style={{
-          background: `linear-gradient(to bottom, ${colorMain} 1%, #121212 60%)`,
+          background: `linear-gradient(to bottom, ${randomColor} 1%, #121212 60%)`,
         }}
       >
         <div className="flex items-center mx-5 w-[20%] justify-between py-10">

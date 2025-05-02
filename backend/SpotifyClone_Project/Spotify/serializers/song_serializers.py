@@ -11,10 +11,18 @@ class SongSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'name',
+            'release_date',
+            'artist_id',
+            'music_genre_id',
+            'album_id',
+            'cover_image_url',
+            'audio_file_url',
+            'duration',
+            'plays',
+            'premium',
+            'is_approved',
             'artist_name',
             'album_name',
             'artist_avatar_url',
-            'duration',
-            'cover_image_url',
-            'audio_file_url',
         ]
+        
