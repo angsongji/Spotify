@@ -6,6 +6,8 @@ import { IoShuffle } from "react-icons/io5";
 import { SlLoop } from "react-icons/sl";
 import { GoMute, GoUnmute } from "react-icons/go";
 import { HiOutlineQueueList } from "react-icons/hi2";
+import { sharedVideoRef } from "../../pages/user/VideoDetail";
+
 
 const AudioBar = ({ currentSong, currentIndex, songs, setCurrentIndex }) => {
   const [volume, setVolume] = useState(0.5);
@@ -14,14 +16,16 @@ const AudioBar = ({ currentSong, currentIndex, songs, setCurrentIndex }) => {
   const [isRepeat, setIsRepeat] = useState(false);
   const [playStatus, setPlayStatus] = useState(false);
   const [time, setTime] = useState({ current: 0, duration: 0 });
+  
 
   const audioRef = useRef(null);
+  sharedAudioRef = audioRef;
 
   const cover = currentSong?.cover_image_url
   ? currentSong.cover_image_url
   : "/default-cover.jpg";
 
-
+  
   useEffect(() => {
     if (audioRef.current && currentSong?.audio_file_url) {
       const playAudio = async () => {
@@ -47,13 +51,21 @@ const AudioBar = ({ currentSong, currentIndex, songs, setCurrentIndex }) => {
 
   const togglePlay = () => {
     if (!audioRef.current) return;
+  
+    // 🔒 Nếu video đang phát thì dừng
+    if (sharedVideoRef?.current && !sharedVideoRef.current.paused) {
+      sharedVideoRef.current.pause();
+    }
+  
     if (playStatus) {
       audioRef.current.pause();
     } else {
       audioRef.current.play();
     }
+  
     setPlayStatus(!playStatus);
   };
+  
 
   const handleTimeUpdate = () => {
     if (!audioRef.current) return;
@@ -224,5 +236,6 @@ const AudioBar = ({ currentSong, currentIndex, songs, setCurrentIndex }) => {
     </>
   );
 };
+export let sharedAudioRef = null;
 
 export default AudioBar;

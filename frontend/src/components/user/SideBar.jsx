@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const SideBar = ({ setCurrentSong }) => {
     const [songs, setSongs] = useState([]);
+    window.setCurrentSongFromOutside = setCurrentSong;
     const [playlists, setPlaylists] = useState([]);
     const navigate = useNavigate();
     
