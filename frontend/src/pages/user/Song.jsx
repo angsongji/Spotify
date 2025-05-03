@@ -152,7 +152,7 @@ const Song = () => {
                 className="w-8 h-8 rounded-full object-cover"
               />
             )}
-            //Mới sửa chỗ này!
+
             <span className="font-bold">
               {song?.artist_name || "Unknown Artist"}
             </span>
@@ -163,8 +163,10 @@ const Song = () => {
             <span>{song?.release_date || "Unknown Year"}</span>
             <span>•</span>
             <span>{formatDuration(song?.duration)}</span>
-            <span>•</span>
-            <span>{song?.listen_count?.toLocaleString() || "0"}</span>
+
+            {/* <span>•</span>
+            <span>{song?.listen_count?.toLocaleString() || "0"}</span> */}
+
           </div>
         </div>
       </div>

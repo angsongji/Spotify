@@ -11,6 +11,8 @@ from .views.user_view import get_user_by_account
 from .views.musicgenre_view import get_music_genres,add_music_genre,delete_music_genre
 from .views.presigned_view import get_presigned_url, delete_s3_file
 from rest_framework_simplejwt.views import TokenRefreshView
+from .views.pusher_view import MessageAPIView
+# from chat import consumers
 
 
 urlpatterns = [
@@ -44,10 +46,11 @@ urlpatterns = [
     path("albums/by-account/<int:account_id>/", AlbumByAccountAPIView.as_view(), name="albums-by-account"),
     path('s3/presign/', get_presigned_url, name='get_presigned_url'),
     path('s3/delete/', delete_s3_file, name='delete_s3_file'),
-
-     path('song/', SongViewSet.as_view({'post': 'create'}), name='song-create'),
+    path('song/', SongViewSet.as_view({'post': 'create'}), name='song-create'),
     path('song/<int:pk>/', SongViewSet.as_view({
             'put': 'update',
             'delete': 'destroy'
         }), name='song-detail'),
+
+    path('messages/', MessageAPIView.as_view()),
 ]

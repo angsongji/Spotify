@@ -23,7 +23,6 @@ import EmailVerified from "../pages/EmailVerified";
 import PlaylistPage from "../pages/user/Playlist";
 
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -89,10 +88,12 @@ const router = createBrowserRouter([
     path: "*",
     element: <NotFound />,
   },
+
   {
     path: "/song/:id",
     element: <Song />
   },
+
 ]);
 
 export default router;
