@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,7 +41,30 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'Spotify',
+
 ]
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Token sống 60 phút
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Refresh token sống 1 ngày
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+# ASGI_APPLICATION = 'SpotifyClone.asgi.application'
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             'hosts': [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
 
 REST_FRAMEWORK = {
     
@@ -64,6 +87,11 @@ AWS_ACCESS_KEY_ID = 'AKIAQUFLQM6QTOZDEEWU'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'spotify-clone-test'
 AWS_S3_REGION_NAME = 'ap-southeast-1'
+
+PUSHER_APP_ID = '1985825'
+PUSHER_KEY = '59ea6e2323dd079fa5e4'
+PUSHER_SECRET = 'da57f9c08b5d22492806'
+PUSHER_CLUSTER = 'ap1'
 
 CORS_ALLOW_ALL_ORIGINS = True   
 ROOT_URLCONF = 'SpotifyClone.urls'

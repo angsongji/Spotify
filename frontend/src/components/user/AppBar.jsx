@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSearch } from "../../context/searchContext"
-import { FaHome, FaSearch, FaBell, FaGlobe } from "react-icons/fa";
+import { FaHome, FaSearch, FaBell, FaGlobe,FaFacebookMessenger } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import ChatComponent from "../ChatComponent";
+import {jwtDecode} from "jwt-decode";
 
 const AppBar = () => {
   const { searchTerm, setSearchTerm,dataSearch, setDataSearch } = useSearch();
@@ -9,7 +11,40 @@ const AppBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);  
   const avatarRef = useRef(null);
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
+  const getAccountIdFromToken = () => {
+      const token = localStorage.getItem("access");
+      console.log("token:", token)
+      if (!token) return null;
+    
+      try {
+        const decoded = jwtDecode(token);
+        console.log("Decoded: ",decoded);
+        return decoded.user_id;
+      } catch (error) {
+        console.error("Invalid token", error);
+        return null;
+      }
+    };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const accountId= getAccountIdFromToken();
+      console.log("AccountID: ",accountId)
+      try {
+        const res = await fetch(`http://localhost:8000/api/user/by-account/${accountId}/`);
+        const data = await res.json();
+        setCurrentUser(data); // { id, username, ... }
+      } catch (err) {
+        console.error("Lỗi khi fetch user:", err);
+      }
+    };
+
+    fetchUser();
+  }, []);
+  
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (searchTerm.trim()) {
@@ -126,11 +161,16 @@ const AppBar = () => {
           </button>
           <FaBell className="cursor-pointer" />
           <FaGlobe className="cursor-pointer" />
-
+          <FaFacebookMessenger className="cursor-pointer" onClick={() => setIsChatOpen(prev => !prev)} />
+          {isChatOpen && currentUser && (
+            <div className="fixed bottom-5 right-5 z-70">
+              <ChatComponent username={currentUser.name} />
+            </div>
+          )}
           {/* Avatar Menu */}
           <div ref={avatarRef} className="relative">
             <img
-              src="/Avatar.jpg"
+              src={currentUser?.avatar}
               alt="Avatar"
               className="w-8 h-8 rounded-full cursor-pointer"
               onClick={toggleMenu}

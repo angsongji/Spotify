@@ -10,6 +10,7 @@ from django.contrib.auth.hashers import check_password
 from ..serializers.account_serializer import AccountLoginSerializer,AccountRegisterSerializer
 from ..models.account_models import Account
 from ..models.user_models import User
+from ..models.friend_list_models import FriendList
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.crypto import get_random_string
@@ -147,8 +148,6 @@ class AccountRegisterView(APIView):
                 fail_silently=False,
             )
 
-            
-
             return Response(
                 {"message": "Tài khoản đã được tạo. Vui lòng kiểm tra email để xác thực."},
                 status=status.HTTP_201_CREATED
@@ -175,6 +174,10 @@ class VerifyEmailView(APIView):
                 premium=None,
                 role_id=2
             )
+
+            if not hasattr(User, 'friend_list'):
+             FriendList.objects.create(user=User)
+
             return redirect("http://localhost:5173/email-verified")
         except Account.DoesNotExist:
             return Response({"error": "Invalid verification token"}, status=status.HTTP_400_BAD_REQUEST)

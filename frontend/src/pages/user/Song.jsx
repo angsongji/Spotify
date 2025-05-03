@@ -150,15 +150,19 @@ const Song = () => {
                 className="w-8 h-8 rounded-full object-cover"
               />
             )}
-            <span className="font-bold">{song.artist_name || "Unknown Artist"}</span>
+  
+            <span className="font-bold">
+              {song?.artist_name || "Unknown Artist"}
+            </span>
+            
             <span>•</span>
             <span>{song.album_name || "Unknown Album"}</span>
             <span>•</span>
             <span>{song.release_date || "Unknown Year"}</span>
             <span>•</span>
-            <span>{formatDuration(song.duration) || "0:00"}</span>
-            <span>•</span>
-            <span>{song.listen_count?.toLocaleString() || "0"}</span>
+            <span>{formatDuration(song?.duration)}</span>
+            {/* <span>•</span>
+            <span>{song?.listen_count?.toLocaleString() || "0"}</span> */}
           </div>
         </div>
       </div>
