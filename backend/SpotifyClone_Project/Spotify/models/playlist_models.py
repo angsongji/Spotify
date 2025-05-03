@@ -7,7 +7,7 @@ class Playlist(models.Model):
     is_public = models.BooleanField(null=True, default=False)  
     created_at = models.DateTimeField(auto_now_add=True)  
     updated_at = models.DateTimeField(auto_now=True)  
-
+    image = models.CharField(max_length=255,null=True)
     def __str__(self):
         return self.name
 

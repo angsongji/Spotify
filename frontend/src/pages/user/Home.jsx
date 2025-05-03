@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useSearch } from "../../context/searchContext";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "../../index.css";
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 const FilterButtons = ({ activeFilter, onFilterChange }) => {
   const filters = ["All", "Album", "Song", "Video"];
-
   return (
     <div className="flex items-center mb-4 gap-2 text-sm">
       {filters.map((filter) => (
@@ -115,7 +117,13 @@ const Home = () => {
   const [songs, setSongs] = useState([]);
   const [videos, setVideos] = useState([]);
 
+  const { searchTerm,dataSearch } = useSearch();
+  
   useEffect(() => {
+    console.log("SearchTerm: ",searchTerm)
+    
+    if (searchTerm) return;
+
     const fetchData = async () => {
       try {
         const [albumsRes, artistsRes, songsRes, videosRes] = await Promise.all([
@@ -124,21 +132,34 @@ const Home = () => {
           axios.get("http://localhost:8000/api/songs/"),
           axios.get("http://localhost:8000/api/videos/"),
         ]);
-
-        setAlbums(Array.isArray(albumsRes.data) ? albumsRes.data : []);
-        setArtists(Array.isArray(artistsRes.data) ? artistsRes.data : []);
-        setSongs(Array.isArray(songsRes.data) ? songsRes.data : []);
-        setVideos(Array.isArray(videosRes.data) ? videosRes.data : []);
+        
+        setAlbums(albumsRes.data || []);
+        setArtists(artistsRes.data || []);
+        setSongs(songsRes.data || []);
+        setVideos(videosRes.data || []);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setAlbums([]);
-        setArtists([]);
-        setSongs([]);
-        setVideos([]);
       }
     };
+
     fetchData();
-  }, []);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    console.log("Data: ", dataSearch)
+    if (!dataSearch || dataSearch.length === 0) return;
+  
+    const albums = dataSearch.filter(item => item.type === 'Album');
+    const songs = dataSearch.filter(item => item.type === 'Song');
+    const artists = dataSearch.filter(item => item.type === 'Artist');
+    const videos = dataSearch.filter(item => item.type === 'Video');
+  
+    setAlbums(albums);
+    setSongs(songs);
+    setVideos(videos);
+    setArtists(artists);
+  }, [dataSearch]);
+  
 
   const handleFilterChange = (filter) => {
     setActiveFilter(filter);
@@ -158,50 +179,49 @@ const Home = () => {
         onFilterChange={handleFilterChange}
       />
 
-{(activeFilter === "All" || activeFilter === "Album") && filteredAlbums.length > 0 && (
-  <>
-    <SectionTitle title="Popular Albums" />
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
-      {filteredAlbums.map((album) => (
-        <AlbumCard key={album.id} album={album} />
-      ))}
-    </div>
-  </>
-)}
+        {(activeFilter === "All" || activeFilter === "Album") && filteredAlbums.length > 0 && (
+          <>
+            <SectionTitle title="Popular Albums" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+              {filteredAlbums.map((album) => (
+                <AlbumCard key={album.id} album={album} />
+              ))}
+            </div>
+          </>
+        )}
 
-{(activeFilter === "All" || activeFilter === "Song") && filteredSongs.length > 0 && (
-  <>
-    <SectionTitle title="Popular Songs" />
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
-      {filteredSongs.map((song) => (
-        <SongCard key={song.id} song={song} />
-      ))}
-    </div>
-  </>
-)}
+        {(activeFilter === "All" || activeFilter === "Song") && filteredSongs.length > 0 && (
+          <>
+            <SectionTitle title="Popular Songs" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+              {filteredSongs.map((song) => (
+                <SongCard key={song.id} song={song} />
+              ))}
+            </div>
+          </>
+        )}
 
-{(activeFilter === "All" || activeFilter === "Video") && filteredVideos.length > 0 && (
-  <>
-    <SectionTitle title="Popular Videos" />
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
-      {filteredVideos.map((video) => (
-        <VideoCard key={video.id} video={video} />
-      ))}
-    </div>
-  </>
-)}
+        {(activeFilter === "All" || activeFilter === "Video") && filteredVideos.length > 0 && (
+          <>
+            <SectionTitle title="Popular Videos" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+              {filteredVideos.map((video) => (
+                <VideoCard key={video.id} video={video} />
+              ))}
+            </div>
+          </>
+        )}
 
-{activeFilter === "All" && artists.length > 0 && (
-  <>
-    <SectionTitle title="Popular Artists" />
-    <div className="flex overflow-x-auto space-x-10 scrollbar-hide">
-      {artists.map((artist) => (
-        <ArtistCard key={artist.id} artist={artist} />
-      ))}
-    </div>
-  </>
-)}
-
+        {!searchTerm && artists.length > 0 && (
+          <>
+            <SectionTitle title="Popular Artists" />
+            <div className="flex overflow-x-auto space-x-10 scrollbar-hide">
+            {artists.map((artist) => (
+              <ArtistCard key={artist.id} artist={artist} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,352 +1,372 @@
-import React, { useState } from "react";
-import {
-  FaEdit,
-  FaTrash,
-  FaTimes,
-  FaSave,
-  FaImage,
-  FaVideo,
-} from "react-icons/fa";
+  import React, { useState, useEffect } from "react";
+  import { FaEdit, FaTrash, FaTimes, FaImage, FaVideo } from "react-icons/fa";
+  import axios from "axios";
+  import { useOutletContext } from "react-router-dom";
 
-const ArtistSongs = () => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [imageFile, setImageFile] = useState(null);
-  const [videoFile, setVideoFile] = useState(null);
-  const [isOn, setIsOn] = useState(false);
+  const ArtistSongs = () => {
+    const [musicGenres, setMusicGenres] = useState([]);
+    const { accountId } = useOutletContext(); 
+    const [albums, setAlbums] = useState([]);
+    const [songs, setSongs] = useState([]);
+    const [selectedSong, setSelectedSong] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
+    const [videoFile, setVideoFile] = useState(null);
 
-  //delete
-  const openDeleteModal = () => {
-    setIsDeleteModalOpen(true); // Mở popup
-  };
 
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false); // Đóng popup
-  };
+    // Fetch songs by artist
+    useEffect(() => {
+      if (accountId) {
+        axios
+          .get(`http://localhost:8000/api/song/by-artist/${accountId}/`)
+          .then((res) => setSongs(res.data.songs || []))
+          .catch((err) => console.error("Lỗi khi tải danh sách bài hát:", err));
+      }
+    }, [accountId]);
+    useEffect(() => {
+      axios.get("http://localhost:8000/api/music-genres/")
+        .then((res) => setMusicGenres(res.data))
+        .catch((err) => console.error("Lỗi khi load thể loại:", err));
+    }, []);
 
-  const handleDeleteSong = () => {
-    closeDeleteModal();
-  };
+    useEffect(() => {
+      
+      if (accountId) {
+        axios
+          .get(`http://localhost:8000/api/albums/by-account/${accountId}/`)
+          .then((res) => {
+            
+            setAlbums(res.data || []);
+            console.log("Kết quả trả về từ API:", res.data); 
+          })
+          .catch((err) => console.error("Lỗi khi tải danh sách album:", err));
+      }
+      
+    }, [accountId]);
 
-  //add-edit
-  const openAddEditModal = () => {
-    setIsEditModalOpen(true);
-  };
+    // Delete modal actions
+    const openDeleteModal = (song) => {
+      setSelectedSong(song);
+      setIsDeleteModalOpen(true);
+    };
 
-  const closeAddEditModal = (e) => {
-    setIsEditModalOpen(false);
-  };
+    const closeDeleteModal = () => {
+      setIsDeleteModalOpen(false);
+      setSelectedSong(null);
+    };
 
-  const handleSave = () => {
-    closeAddEditModal();
-  };
+    const handleDeleteSong = () => {
+      console.log("ID bài hát: ", selectedSong.id)
+      axios
+        .delete(`http://localhost:8000/api/song/${selectedSong.id}/`)
+        .then(() => {
+          setSongs((prev) => prev.filter((s) => s.id !== selectedSong.id));
+          closeDeleteModal();
+        })
+        .catch((err) => console.error("Lỗi khi xóa bài hát:", err));
+    };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Lấy file đầu tiên
-    if (!file) return;
+    // Add/Edit modal actions
+    const openAddEditModal = (song = null) => {
+      setSelectedSong(song);
+      setIsEditModalOpen(true);
+      setImageFile(null);
+      setVideoFile(null);
+    };
+    
+    useEffect(() => {
+      console.log("Selected song:", selectedSong); // log khi selectedSong thay đổi
+    }, [selectedSong]);
 
-    if (file.type.startsWith("image/")) {
-      setImageFile(file);
-    } else if (file.type.startsWith("video/")) {
-      setVideoFile(file);
-    } else {
-      alert("Chỉ được chọn ảnh hoặc âm thanh!");
+    const closeAddEditModal = () => {
+      setIsEditModalOpen(false);
+      setSelectedSong(null);
+    };
+
+    const handleSave = async () => {
+      try {
+        let coverUrl = selectedSong?.cover_image_url || "";
+        let coverKey = selectedSong?.cover_image_key || "";
+        let audioUrl = selectedSong?.audio_file_url || "";
+        let audioKey = selectedSong?.audio_file_key || "";
+    
+        if (imageFile) {
+          const { url, key } = await uploadToS3(imageFile, "image");
+          console.log()
+          coverUrl = url;
+          coverKey = key;
+        }
+    
+        if (videoFile) {
+          const { url, key } = await uploadToS3(videoFile, "audio");
+          audioUrl = url;
+          audioKey = key;
+        }
+    
+        const payload = {
+          name: selectedSong?.name || "",
+          premium: selectedSong?.premium || false,
+          artist_id: accountId,
+          music_genre_id: selectedSong?.music_genre_id || null,
+          album_id: selectedSong?.album_id || null,
+          cover_image_url: coverUrl,
+          cover_image_key: coverKey,
+          audio_file_url: audioUrl,
+          audio_file_key: audioKey,
+        };
+        console.log("payload nè: ",payload)
+        const request = selectedSong?.id
+          ? axios.put(`http://localhost:8000/api/song/${selectedSong.id}/`, payload)
+          : axios.post("http://localhost:8000/api/song/", payload);
+    
+        const res = await request;
+        if (selectedSong?.id) {
+          setSongs((prev) => prev.map((s) => (s.id === selectedSong.id ? res.data : s)));
+        } else {
+          setSongs((prev) => [...prev, res.data]);
+        }
+    
+        closeAddEditModal();
+      } catch (err) {
+        console.error("Lỗi khi lưu bài hát:", err);
+      }
+    };
+    
+    // Toggle song status
+    const toggleStatus = () => {
+      if (!selectedSong) return;
+      setSelectedSong({ ...selectedSong, isOn: !selectedSong.isOn });
+    };
+
+    const uploadToS3 = async (file, type) => {
+    try {
+      const res = await axios.post("http://localhost:8000/api/s3/presign/", {
+        file_name: file.name,
+        file_type: file.type,
+        
+      });
+      console.log("hehe",file.name," & ", file.type)
+      const { url, key, file_url } = res.data;
+
+      // Upload file trực tiếp lên S3
+      await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": file.type,
+        },
+        body: file,
+      });
+
+      return { url: file_url, key };
+    } catch (err) {
+      console.error("Upload thất bại:", err);
+      return { url: null, key: null };
     }
   };
 
-  const toggle = () => {
-    setIsOn(!isOn);
-  };
-  return (
-    <div className="p-5">
-      <h1 className="text-2xl font-bold mb-4">Artist Songs</h1>
 
-      {/* Bảng hiển thị bài hát */}
-      <table className="w-full">
-        <thead>
-          <tr className="border-b border-gray-200">
-            <th className="p-3 text-left">#</th>
-            <th className="p-3 text-left">Cover</th>
-            <th className="p-3 text-left">Title</th>
-            <th className="p-3 text-left">Date Release</th>
-            <th className="p-3 text-left">Playlist Pitch</th>
-            <th className="p-3 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* Dòng 1 */}
-          <tr className="border-b border-gray-200 hover:bg-gray-50">
-            <td className="p-3">1</td>
-            <td className="p-3">
-              <img src="SonTung.jpg" alt="Cover" className="w-12 h-12" />
-            </td>
-            <td className="p-3">Song One</td>
-            <td className="p-3">2023-01-01</td>
-            <td className="p-3">Upbeat and energetic</td>
-            <td className="p-3">
-              <div className="flex item-center gap-3 space-x-2">
+    return (
+      <div className="p-5">
+        <h1 className="text-2xl font-bold mb-4">Artist Songs</h1>
+
+        {/* Song Table */}
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-gray-200">
+              <th className="p-3 text-left">#</th>
+              <th className="p-3 text-left">Ảnh</th>
+              <th className="p-3 text-left">Tên bài hát</th>
+              <th className="p-3 text-left">Ngày phát hành</th>
+              <th className="p-3 text-left">Trạng thái</th>
+              <th className="p-3 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {songs.map((song, index) => (
+              <tr key={song.id} className="border-b border-gray-200 hover:bg-gray-50">
+                <td className="p-3">{index + 1}</td>
+                <td className="p-3">
+                  <img src={song.cover_image_url || "default.jpg"} alt="Cover" className="w-12 h-12" />
+                </td>
+                <td className="p-3">{song.name}</td>
+                <td className="p-3">{song.release_date}</td>
+                <td className="p-3">
+                  {song.is_approved === 1 ? "Đã kiểm duyệt" : "Chưa kiểm duyệt"}
+                </td>
+                <td className="p-3">
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => openAddEditModal(song)}
+                      className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={() => openDeleteModal(song)}
+                      className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Add Song Button */}
+        <button
+          onClick={() => openAddEditModal()}
+          className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 shadow-lg"
+        >
+          <span className="text-2xl">+</span>
+        </button>
+
+        {/* Delete Modal */}
+        {isDeleteModalOpen && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="flex flex-col bg-white border rounded-lg p-6 w-96">
+              <div className="flex justify-end items-center mb-2">
                 <button
-                  onClick={openAddEditModal}
-                  className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
+                  onClick={closeDeleteModal}
+                  className="flex text-gray-500 hover:text-gray-700"
                 >
-                  <FaEdit className="" />
-                </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
-                  <FaTrash className="" />
+                  <FaTimes className="text-lg" />
                 </button>
               </div>
-            </td>
-          </tr>
-
-          {/* Dòng 2 */}
-          <tr className="border-b border-gray-200 hover:bg-gray-50">
-            <td className="p-3">2</td>
-            <td className="p-3">
-              <img src="NooPhuocThinh.jpg" alt="Cover" className="w-12 h-12" />
-            </td>
-            <td className="p-3">Song Two</td>
-            <td className="p-3">2023-02-15</td>
-            <td className="p-3">Relaxing and chill</td>
-            <td className="p-3">
-              <div className="flex item-center gap-3 space-x-2">
+              <h2 className="text-xl font-semibold text-center mb-2">Confirm Deletion</h2>
+              <p className="text-gray-700">
+                Are you sure you want to delete the song "{selectedSong?.name}"? This action cannot be undone.
+              </p>
+              <div className="flex justify-center gap-5 mt-4">
                 <button
-                  onClick={openAddEditModal}
-                  className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
+                  onClick={closeDeleteModal}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
                 >
-                  <FaEdit className="" />
+                  Cancel
                 </button>
                 <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
+                  onClick={handleDeleteSong}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
                 >
-                  <FaTrash className="" />
+                  Delete
                 </button>
               </div>
-            </td>
-          </tr>
+            </div>
+          </div>
+        )}
 
-          {/* Dòng 3 */}
-          <tr className="border-b border-gray-200 hover:bg-gray-50">
-            <td className="p-3">3</td>
-            <td className="p-3">
-              <img src="/JennieSpotify.jpg" alt="Cover" className="w-12 h-12" />
-            </td>
-            <td className="p-3">Song Three</td>
-            <td className="p-3">2023-03-10</td>
-            <td className="p-3">Energetic and fast-paced</td>
-            <td className="p-3">
-              <div className="flex item-center gap-3 space-x-2">
-                <button
-                  onClick={openAddEditModal}
-                  className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
-                >
-                  <FaEdit className="" />
-                </button>
-                <button
-                  onClick={openDeleteModal}
-                  className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
-                >
-                  <FaTrash className="" />
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      {/* Nút thêm bài hát */}
-      <button
-        onClick={openAddEditModal}
-        className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 shadow-lg hover:shadow-xl"
-      >
-        <span className="text-2xl">+</span>
-      </button>
-
-      {/* Popup xác nhận xóa */}
-      {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="flex flex-col bg-white border rounded-lg p-6 w-96">
-            <div className="flex justify-end items-center mb-2">
+        {isEditModalOpen && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[570px] relative">
               <button
-                onClick={closeDeleteModal}
-                className="flex text-gray-500 hover:text-gray-700"
+                onClick={closeAddEditModal}
+                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
               >
                 <FaTimes className="text-lg" />
               </button>
-            </div>
+              <h2 className="text-xl font-semibold mb-4">Add / Edit Song</h2>
 
-            {/* Header */}
-            <h2 className="text-xl font-semibold text-center mb-2">
-              Xác nhận xóa
-            </h2>
-
-            {/* Nội dung */}
-            <p className="text-gray-700">
-              Bạn có chắc chắn muốn xóa bài hát{" "}
-              <span className="font-semibold"></span> không? Hành động này không
-              thể hoàn tác.
-            </p>
-
-            {/* Nút hành động */}
-            <div className="flex justify-center gap-5 mt-4">
-              <button
-                onClick={closeDeleteModal}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Hủy
-              </button>
-              <button
-                onClick={handleDeleteSong}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-              >
-                Xóa
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Popup chỉnh sửa */}
-      {isEditModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg  w-full max-w-[570px] relative">
-            {/* Nút đóng */}
-            <button
-              onClick={closeAddEditModal}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-            >
-              <FaTimes className="text-lg" />
-            </button>
-
-            <h2 className="text-xl font-semibold mb-4">Chỉnh sửa bài hát</h2>
-
-            {/* Tên bài hát */}
-            <div className="mb-3">
-              <label className="block text-sm font-medium">Tên bài hát</label>
-              <input type="text" className="w-full border rounded p-2" />
-            </div>
-            {/* Tên album */}
-            <div className="mb-3">
-              <label className="block text-sm font-medium">Tên album</label>
-              <input type="text" className="w-full border rounded p-2" />
-            </div>
-
-            <div className="mb-3">
-              <label className="block text-sm font-medium">Thể loại</label>
-              <select className="w-full border rounded p-2">
-                <option>Pop</option>
-                <option>Rock</option>
-                <option>Country</option>
-                <option>Electronic</option>
-                <option>Classical</option>
-              </select>
-            </div>
-
-            {/* Thời lượng */}
-            <div className="mb-3">
-              <label className="block text-sm font-medium">Thời lượng</label>
-              <input
-                type="text"
-                className="w-full border rounded p-2"
-                placeholder="mm:ss"
-              />
-            </div>
-
-            {/* Ngày phát hành
-            <div className="mb-3">
-              <label className="block text-sm font-medium">
-                Ngày phát hành
-              </label>
-              <input type="date" className="w-full border rounded p-2" />
-            </div> */}
-
-            {/* Tải file ảnh và file nhạc */}
-            <div className="uploadImageAndVideo flex justify-between mb-8 mt-8">
-              {/* Tải file nhạc */}
-              <div className="flex flex-col items-center outline outline-2 outline-dashed outline-gray-500 rounded-lg p-8">
-                <FaVideo className="text-gray-500 text-6xl mb-3" />
-                <label
-                  htmlFor="video-upload"
-                  className="px-4 py-2 bg-gray-300 text-gray rounded-lg hover:bg-blue-300 hover:text-blue-800 cursor-pointer ml-10 mr-10"
-                >
-                  Tải video lên
-                </label>
+              {/* Name */}
+              <div className="mb-3">
+                <label className="block text-sm font-medium">Tên bài hát</label>
                 <input
-                  id="video-upload"
-                  type="file"
-                  accept="video/*"
-                  onChange={handleFileChange}
-                  className="hidden"
+                  type="text"
+                  value={selectedSong?.name || ""}
+                  onChange={(e) => setSelectedSong({ ...selectedSong, name: e.target.value })}
+                  className="w-full border rounded p-2"
                 />
               </div>
 
-              {/* Ảnh bìa */}
-              <div className="flex flex-col items-center outline outline-2 outline-dashed outline-gray-500 rounded-lg p-8">
-                <FaImage className="text-gray-500 text-6xl mb-3" />
-                <label
-                  htmlFor="image-upload"
-                  className="px-4 py-2 bg-gray-300 text-gray rounded-lg hover:bg-blue-300 hover:text-blue-800 cursor-pointer ml-10 mr-10"
+              {/* Music Genre */}
+              <div className="mb-3">
+                <label className="block text-sm font-medium">Thể loại nhạc</label>
+                <select
+                  value={selectedSong?.music_genre_id || ""}
+                  onChange={(e) => setSelectedSong({ ...selectedSong, music_genre_id: e.target.value })}
+                  className="w-full border rounded p-2"
                 >
-                  Tải ảnh lên
-                </label>
+                  <option value="">-- Chọn thể loại --</option>
+                  {musicGenres.map((genre) => (
+                    <option key={genre.id} value={genre.id}>
+                      {genre.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Album */}
+              <div className="mb-3">
+                <label className="block text-sm font-medium">Album</label>
+                <select
+                  value={selectedSong?.album_id || ""}
+                  onChange={(e) => setSelectedSong({ ...selectedSong, album_id: e.target.value })}
+                  className="w-full border rounded p-2"
+                >
+                  <option value="">-- Chọn album --</option>
+                  {albums.map((album) => (
+                    <option key={album.id} value={album.id}>
+                      {album.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Premium */}
+              <div className="mb-3 flex items-center">
                 <input
-                  id="image-upload"
+                  type="checkbox"
+                  checked={selectedSong?.premium || false}
+                  onChange={(e) => setSelectedSong({ ...selectedSong, premium: e.target.checked })}
+                  className="mr-2"
+                />
+                <label className="text-sm font-medium">Premium (Chỉ dành cho tài khoản trả phí)</label>
+              </div>
+
+              {/* Cover Image Upload */}
+              <div className="mb-3">
+                <label className="block text-sm font-medium">Ảnh đại diện</label>
+                <input
                   type="file"
                   accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
+                  onChange={(e) => setImageFile(e.target.files[0])}
+                  className="w-full border rounded p-2"
                 />
               </div>
-            </div>
 
-            {/* file name  */}
-            <div className="flex flex-col items-center">
-              {imageFile && (
-                <div class="flex outline rounded p-3 w-full mb-4">
-                  {" "}
-                  <FaImage className="text-gray-500 text-xl mr-4" />
-                  <p>{imageFile.name}</p>
-                </div>
-              )}
-              {videoFile && (
-                <div className="flex outline rounded p-3 w-full mb-4">
-                  <FaVideo className="text-gray-500 text-xl mr-4" />
-                  <p>{videoFile.name}</p>
-                </div>
-              )}
-            </div>
-
-            {/* trạng thái */}
-            <div className="flex mb-5">
-              <label className="block text-sm font-medium mt-1 mr-4">Trạng thái</label>
-              <div
-                className={`w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition-all ${
-                  isOn ? "bg-green-500" : "bg-gray-400"
-                }`}
-                onClick={() => setIsOn(!isOn)}
-              >
-                <div
-                  className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
-                    isOn ? "translate-x-6" : "translate-x-0"
-                  }`}
+              {/* Audio Upload */}
+              <div className="mb-3">
+                <label className="block text-sm font-medium">File Bài hát (Audio)</label>
+                <input
+                  type="file"
+                  accept="audio/*"
+                  onChange={(e) => setVideoFile(e.target.files[0])}
+                  className="w-full border rounded p-2"
                 />
               </div>
+
+              {/* Action buttons */}
+              <div className="flex justify-center mt-4 gap-3">
+                <button
+                  onClick={closeAddEditModal}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSave}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                >
+                  Save
+                </button>
+              </div>
             </div>
-            {/* Nút lưu */}
-            <button
-              onClick={handleSave}
-              className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-            >
-              Lưu thay đổi
-            </button>
           </div>
-        </div>
-      )}
-    </div>
-  );
-};
+        )}
 
-export default ArtistSongs;
+      </div>
+    );
+  };
+
+  export default ArtistSongs;

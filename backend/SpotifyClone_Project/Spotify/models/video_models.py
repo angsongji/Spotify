@@ -12,6 +12,7 @@ class Video(models.Model):
     album = models.ForeignKey(Album, null=True, blank=True, on_delete=models.SET_NULL)
     premium = models.BooleanField(default=False)
     video_file_url= models.URLField(max_length=500, null=True, blank=True)
+    is_approved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

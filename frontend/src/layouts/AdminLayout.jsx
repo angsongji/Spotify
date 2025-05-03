@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import {jwtDecode} from "jwt-decode";
+import axios from "axios";
 import { Layout, Menu } from "antd";
 import { Outlet, Link } from "react-router-dom";
 import { AiFillTags } from "react-icons/ai";
@@ -13,6 +16,35 @@ import PopupMenu from "../components/PopupMenu";
 const { Header, Sider, Content, Footer } = Layout;
 
 const AdminLayout = () => {
+
+    const [user, setUser] = useState("");
+
+    useEffect(() => {
+        const token = localStorage.getItem("access");
+        if (!token) return;
+
+        try {
+            const decoded = jwtDecode(token);
+            const accountId = decoded.user_id; // hoặc decoded.account_id tùy backend
+            console.log("AccountId: ",accountId)
+
+            // Gọi API để lấy thông tin user
+            axios
+                .get(`http://localhost:8000/api/user/by-account/${accountId}/`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => {
+                    setUser(res.data);
+                })
+                .catch((err) => {
+                    console.error("Error fetching user info", err);
+                });
+        } catch (error) {
+            console.error("Invalid token", error);
+        }
+    }, []);
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
@@ -42,13 +74,21 @@ const AdminLayout = () => {
 
             {/* Main Layout */}
             <Layout>
-                <Header style={{ background: "#fff", padding: "0 40px 0 40px", textAlign: "center", fontSize: 20, display: "flex", justifyContent: "space-between" }}>
+                <Header
+                    style={{
+                        background: "#fff",
+                        padding: "0 40px 0 40px",
+                        textAlign: "center",
+                        fontSize: 20,
+                        display: "flex",
+                        justifyContent: "space-between",
+                    }}
+                >
                     <h1>Welcome!</h1>
                     <div className="flex gap-2 items-center">
-                        <span className="text-lg">Oanh le</span>
+                        <span className="text-lg">{user.name || "Loading..."}</span>
                         <PopupMenu />
                     </div>
-
                 </Header>
                 <Content style={{ margin: "16px", padding: "24px", background: "#fff" }}>
                     <Outlet /> {/* Hiển thị nội dung tương ứng với route */}
