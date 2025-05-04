@@ -9,30 +9,55 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const response = await fetch("http://localhost:8000/api/login/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({ email, password }),
-
     });
-
+  
     const data = await response.json();
-
+  
     if (response.ok) {
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
-
-      alert(`Đăng nhập thành công!\nID: ${data.id}\n/Email: ${data.email}`);
-      navigate("/");
+  
+      alert(`Đăng nhập thành công!\nID: ${data.id}\nEmail: ${data.email}`);
+  
+      // ✅ Gọi API lấy role_id từ account_id
+      try {
+        const userResponse = await fetch(
+          `http://localhost:8000/api/user/by-account/${data.id}/`
+        );
+        const userData = await userResponse.json();
+        console.log("usersefjsda:", userData)
+        if (!userResponse.ok) {
+          alert("Lỗi khi lấy thông tin người dùng.");
+          return;
+        }
+  
+        const roleId = userData.role;
+        localStorage.setItem("role_id", roleId); // Lưu lại nếu cần
+  
+        // ✅ Điều hướng theo role
+        if (roleId == 1) {
+          navigate("/admin");
+        } else if (roleId == 2) {
+          navigate("/");
+        } else if (roleId == 4) {
+          navigate("/artist-manage");
+        } else {
+          alert("Vai trò không hợp lệ.");
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API user:", error);
+        alert("Không thể lấy thông tin role người dùng.");
+      }
     } else {
       if (response.status === 403) {
-        alert(
-          data.error || "Tài khoản chưa xác thực. Vui lòng kiểm tra email."
-        );
+        alert(data.error || "Tài khoản chưa xác thực. Vui lòng kiểm tra email.");
       } else if (response.status === 400) {
         alert(data.error || "Thông tin không hợp lệ.");
       } else if (response.status === 404) {
@@ -42,6 +67,7 @@ const SignIn = () => {
       }
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-neutral-800">

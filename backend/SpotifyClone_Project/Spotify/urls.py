@@ -7,7 +7,7 @@ from .views.artist_view import ArtistListAPIView, get_artist_songs
 from .views.album_view import AlbumListAPIView, AlbumDetailAPIView, SongByAlbumAPIView, AlbumByAccountAPIView,AllAlbumAPIView
 from .views.video_view import VideoListAPIView, VideoDetailAPIView
 from .views.playlist_view import get_playlists_by_account, PlaylistDetailAPIView, SongByPlaylistAPIView, PlaylistSongCreateView
-from .views.user_view import get_user_by_account
+from .views.user_view import get_user_by_account,UserListView,UpdateUserRoleView
 from .views.musicgenre_view import get_music_genres,add_music_genre,delete_music_genre
 from .views.presigned_view import get_presigned_url, delete_s3_file
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -38,7 +38,9 @@ urlpatterns = [
     path('playlist/<int:id>/', PlaylistDetailAPIView.as_view(), name='playlist_detail'),
     path('playlist/<int:playlist_id>/songs/', SongByPlaylistAPIView.as_view(), name='songs_by_playlist'),
     path('playlist_song/', PlaylistSongCreateView.as_view(), name='add-to-playlist'),
+    path('users/', UserListView.as_view(), name='user-list'),   
     path('user/by-account/<int:account_id>/', get_user_by_account),
+    path('users/<int:user_id>/update-role/', UpdateUserRoleView.as_view(), name='update-role'),
     path('song/by-artist/<int:account_id>/', get_artist_songs),
     path('music-genres/', get_music_genres, name='get-music-genres'),
     path('music-genres/add/', add_music_genre, name='add-music-genre'),
