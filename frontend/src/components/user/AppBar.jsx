@@ -104,6 +104,8 @@ const AppBar = () => {
       });
 
       if (!res.ok) {
+        localStorage.clear();
+        navigate("/sign-in");
         console.error("Lỗi khi gọi API logout");
         return;
       }

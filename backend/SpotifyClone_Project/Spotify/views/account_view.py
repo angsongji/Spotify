@@ -110,6 +110,7 @@ class AccountLogoutView(APIView):
 
         except Exception as e:
             print(f"❌ Lỗi trong quá trình logout: {e}")
+            user.is_online = False
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
             
 class AccountRegisterView(APIView):
