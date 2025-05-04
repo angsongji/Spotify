@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from datetime import date
-import moviepy.editor as mp
+
 
 import requests
 import os
@@ -102,10 +102,7 @@ class SongViewSet(viewsets.ModelViewSet):
                     if file_url.lower().endswith(".mp3"):
                         audio = MP3(tmp_path)
                         duration = int(audio.info.length)
-                    elif file_url.lower().endswith(".mp4"):
-                        clip = mp.VideoFileClip(tmp_path)
-                        duration = int(clip.duration)
-                        clip.close()
+                    
             except Exception as e:
                 print("Lỗi khi lấy thời lượng audio:", e)
             finally:
