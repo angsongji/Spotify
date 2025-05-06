@@ -2,7 +2,7 @@
 
 ## Giới thiệu
 
-Dự án "Spotify Clone" là một ứng dụng web được phát triển với mục tiêu mô phỏng lại các chức năng của nền tảng nghe nhạc trực tuyến Spotify. Ứng dụng này cho phép người dùng phát nhạc trực tuyến, tạo và quản lý danh sách phát cá nhân, đồng thời khám phá các nghệ sĩ, bài hát và album theo sở thích. Mục tiêu chính của dự án là xây dựng một hệ thống phát nhạc trực tuyến hiện đại, dễ sử dụng, có giao diện trực quan và khả năng phản hồi nhanh trên nhiều thiết bị. Về mặt công nghệ, dự án sử dụng React để xây dựng giao diện người dùng linh hoạt và thân thiện và Django đảm nhận vai trò xử lý dữ liệu và cung cấp API cho phía máy chủ.
+Dự án "Spotify Clone" là trang web được phát triển với mục tiêu mô phỏng lại các chức năng của nền tảng nghe nhạc trực tuyến Spotify. Trang web này cho phép người dùng phát nhạc trực tuyến, tạo và quản lý danh sách phát cá nhân, khám phá các nghệ sĩ, bài hát và album theo sở thích. Mục tiêu của dự án là xây dựng một hệ thống phát nhạc trực tuyến hiện đại, dễ sử dụng, có giao diện trực quan. Về mặt công nghệ, dự án sử dụng React để xây dựng giao diện người dùng linh hoạt và Django đảm nhận vai trò xử lý dữ liệu và cung cấp API cho phía máy chủ.
 
 ## Công nghệ sử dụng
 
@@ -82,4 +82,3 @@ python manage.py runserver
 
 - **Quản lý nội dung**: Thêm, sửa, xóa bài hát, album và nghệ sĩ
 - **Quản lý người dùng**: Xem và quản lý tài khoản người dùng
-- **Phân tích dữ liệu**: Xem thống kê về lượt phát và hoạt động người dùng
